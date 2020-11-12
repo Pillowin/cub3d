@@ -6,19 +6,22 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 17:17:22 by agautier          #+#    #+#             */
-/*   Updated: 2020/11/10 17:05:25 by agautier         ###   ########.fr       */
+/*   Updated: 2020/11/12 18:51:48 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	get_texture(t_map *map)
+{
+	
+}
 
 void	global_img(t_map *map)
 {
 	int	x;
 	int	y;
 
-	map->res.x = 800;
-	map->res.y = 800;
 	map->mlx.img.bpp = 32;
 	map->mlx.img.size_line = map->res.x;
 	map->mlx.img.endian = 0;

@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 17:16:42 by agautier          #+#    #+#             */
-/*   Updated: 2020/11/10 22:26:37 by agautier         ###   ########.fr       */
+/*   Updated: 2020/11/12 18:35:28 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,16 @@
 
 void	global_win(t_map *map)
 {
+	int	x;
+	int	y;
+
 	map->mlx.id = mlx_init();
-	map->mlx.win = mlx_new_window(map->mlx.id, 800, 800, "titre");
+	mlx_get_screen_size(map->mlx.id, &x, &y);
+	if (map->res.x > x)
+		map->res.x = x;
+	if (map->res.y > y)
+		map->res.y = y;
+	map->mlx.win = mlx_new_window(map->mlx.id, map->res.x, map->res.y, "Cub3D");
 }
 
 int		close_win(t_map *map)
