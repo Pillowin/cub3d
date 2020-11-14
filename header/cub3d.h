@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 21:10:24 by agautier          #+#    #+#             */
-/*   Updated: 2020/11/10 23:03:06 by agautier         ###   ########.fr       */
+/*   Updated: 2020/11/14 19:14:36 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ int				minimise_hook(t_map *map);
 **	Image
 */
 void			global_img(t_map *map);
+void			get_texture(t_map *map);
 
 /*
 **	Parse
@@ -103,5 +104,10 @@ int				fill_color(t_map *map, char **words, int index);
 */
 void			free_textures(t_map *map);
 void			free_split(char **words);
+
+/*
+**	Engine
+*/
+void			raycast(t_map *map);
 
 #endif
