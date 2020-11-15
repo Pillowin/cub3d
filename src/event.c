@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 17:07:40 by agautier          #+#    #+#             */
-/*   Updated: 2020/11/14 15:46:33 by agautier         ###   ########.fr       */
+/*   Updated: 2020/11/15 23:08:32 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,16 @@ int		event_hook(int keycode, t_map *map)
 		close_win(map);
 	printf("%d\n", keycode);
 	return (0);
+}
+
+void	move_hook(int keycode, t_map *map)
+{
+	// if (keycode == W_KEY)
+	// 	move_player();
+	// if (keycode == A_KEY)
+	// 	move_player();
+	// if (keycode == S_KEY)
+	// 	move_player();
+	// if (keycode == D_KEY)
+	// 	move_player();
 }

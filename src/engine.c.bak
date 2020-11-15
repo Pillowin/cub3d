@@ -1,0 +1,134 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    engine.c.bak                                       :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: agautier <agautier@student.42.fr>          +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2020/11/14 19:13:12 by agautier          #+#    #+#              #
+#    Updated: 2020/11/15 22:29:36 by agautier         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+#include "cub3d.h"
+
+// /*
+// 	struct point
+// 	{
+// 		x;
+// 		y;
+// 	};
+	
+// 	struct cam
+// 	{
+// 	};
+// */
+
+// # define FOV 60
+// # define MAP_SIDE 7
+
+// double	to_rad(int	a)
+// {
+// 	return (a * M_PI / 180);
+// }
+
+// double	horizontal_detection(t_map *map, char laby[7][7])
+// {
+// 	int pos_initx = 3;
+// 	int pos_inity = 5;
+
+// 	int pos_to_checkx = pos_initx;
+// 	int pos_to_checky = pos_inity;
+
+// 	double x1;	// premier point d'intersection
+// 	double	ya = 1;
+// 	int	a = 35;
+// 	double	xa = ya / tan(to_rad(a));
+// 	printf("\nto_rad(a) = %f\n", to_rad(a));
+// 	printf("tan(to_rad(a)) = %f\n\n", tan(to_rad(a)));
+// 	printf("xa = %f\n", xa);
+
+// 	double	lenx = 0;
+// 	int i = 0;
+// 	while (i < MAP_SIDE && !wall_found)
+// 	{
+// 		if (xa >= 1)
+// 		{
+// 			// Je me deplace de 1 verticalement
+// 			pos_to_checkx = pos_to_checkx + (multiplicateur) * 1;
+// 			// TODO: check cette case
+// 		}
+// 		else
+// 		{
+// 			/* code */
+// 		}
+		
+// 		i++;
+// 	}
+	
+
+// 	// while (!mur)
+// 	// {
+// 	// 	// Détection horizontale :
+// 	// 	if (xa >= 1)
+// 	// 	{
+// 	// 		// Je me deplace de 1 verticalement
+// 	// 		pos_to_checkx = pos_to_checkx + (multiplicateur) * 1;
+// 	// 		// TODO: check cette case
+// 	// 	}
+// 	// 	// Détection verticale :
+// 	// 	if ()
+// 	// 	{
+// 	// 		// Je me deplace de 1 horizontalement
+// 	// 		pos_to_checky = pos_to_checky + (multiplicateur) * 1;
+// 	// 		// TODO: check cette case
+// 	// 	}
+// 	// }
+
+// 	// if (laby[pos_to_checkx][pos_to_checky] == 1)
+// 	// 	dessine_un_mur
+
+
+
+// 	return (0);
+// }
+
+// void	raycast(t_map *map)
+// {
+
+// 	char	laby[7][7] =
+// 	{
+// 		{1,	1,	1,	1,	1,	1,	1},
+// 		{1,	0,	0,	1,	1,	0,	1},
+// 		{1,	0,	0,	1,	1,	0,	1},
+// 		{1,	0,	0,	0,	0,	0,	1},
+// 		{1,	0,	1,	0,	0,	0,	1},
+// 		{1,	0,	0, 'N',	0,	0,	1},
+// 		{1,	1,	1,	1,	1,	1,	1}
+// 	};
+// 	double	dist_cam_proj;
+// 	double	step;
+
+// 	int	screenx = map->res.x;
+// 	int	screeny = map->res.y;
+
+// 	dist_cam_proj = screenx / 2 / tan(to_rad(FOV/2));
+// 	printf("dist_cam_proj = %f\n\n\n", dist_cam_proj);
+
+// 	step = FOV / screenx;
+
+// 	horizontal_detection(map, laby);
+// 	// hauteur_cam
+// 	// orientation cam
+// 	// fov
+// 	// posCamX et posCamY
+
+// 	// ecran de projection size
+
+// }
+
+// // distance	detection_mur_horizontal()
+// // distance	detection_mur_vertical()
+
+// // calcul_hauteur_colonne()
+

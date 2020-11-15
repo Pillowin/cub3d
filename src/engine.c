@@ -5,47 +5,43 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/14 19:13:12 by agautier          #+#    #+#             */
-/*   Updated: 2020/11/14 19:27:53 by agautier         ###   ########.fr       */
+/*   Created: 2020/11/15 21:35:27 by agautier          #+#    #+#             */
+/*   Updated: 2020/11/15 23:20:54 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-map
+void	move_player(t_map *map, int x, int y)
 {
-	{1, 1, 1, 1, 1, 1, 1},
-	{1, 0, 0, 1, 1, 0, 1},
-	{1, 0, 0, 1, 1, 0, 1},
-	{1, 0, 0, 0, 0, 0, 1},
-	{1, 0, 1, 0, 0, 0, 1},
-	{1, 0, 0, 'N', 0, 0, 1},
-	{1, 1, 1, 1, 1, 1, 1}
-};
-
-void	raycast(t_map *map)
-{
-
-	struct point
-	{
-		x;
-		y;
-	};
-
-	struct cam
-	{
-		hauteur_cam
-		orientation cam
-		fov
-		posCamX et posCamY
-	};
-
-	ecran de projection size
-
+	
 }
 
-distance	detection_mur_horizontal()
-distance	detection_mur_vertical()
+void	draw_player(t_map *map, t_pos pos, int size, t_color c)
+{
+	int	x;
+	int	y;
+	t_player	player;
+	t_game	game;
 
-calcul_hauteur_colonne()
-
+	printf("sizeof map = %lu\n", sizeof (t_map));
+	printf("sizeof player = %lu\n", sizeof (t_player*));
+	player.pos.x = pos.x;
+	player.pos.y = pos.y;
+	player.size = size;
+	player.color = c;
+	// map->player = &player;
+	game.player = player;
+	game.map = *map;
+	y = pos.y - size / 2;
+	while (y < pos.y + size / 2)
+	{
+		x = pos.x - size / 2;
+		while (x < pos.x + size / 2)
+		{
+			put_pixel(map, x, y, c);
+			x++;
+		}
+		y++;
+	}
+}

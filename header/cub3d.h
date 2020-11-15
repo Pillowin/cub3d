@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 21:10:24 by agautier          #+#    #+#             */
-/*   Updated: 2020/11/14 19:14:36 by agautier         ###   ########.fr       */
+/*   Updated: 2020/11/15 23:24:18 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,18 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <fcntl.h>
+# include <math.h>
 
 # define ESC_KEY				65307
 # define DESTROY_NOTIFY			17
 # define STRUCTURE_NOTIFY_MASK	131072L
 # define VISIBILITY_NOTIFY		15
 # define VISIBILITY_CHANGE_MASK	65536L
+
+# define W_KEY 119
+# define A_KEY 97
+# define S_KEY 115
+# define D_KEY 100
 
 typedef struct	s_img
 {
@@ -54,18 +60,37 @@ typedef struct	s_color
 	int	b;
 }				t_color;
 
+typedef struct	s_pos
+{
+	int	x;
+	int	y;
+}				t_pos;
+
+typedef struct	s_player
+{
+	t_pos	pos;
+	int		size;
+	t_color	color;
+}				t_player;
+
 typedef struct	s_map
 {
-	t_mlx	mlx;
-	t_res	res;
-	char	*north;
-	char	*south;
-	char	*west;
-	char	*east;
-	char	*sprite;
-	t_color	floor;
-	t_color	ceiling;
+	t_mlx		mlx;
+	t_res		res;
+	char		*north;
+	char		*south;
+	char		*west;
+	char		*east;
+	char		*sprite;
+	t_color		floor;
+	t_color		ceiling;
 }				t_map;
+
+// typedef struct	s_game
+// {
+// 	t_map		map;
+// 	t_player	player;
+// }				t_game;
 
 /*
 **	Window
@@ -85,6 +110,7 @@ int				minimise_hook(t_map *map);
 */
 void			global_img(t_map *map);
 void			get_texture(t_map *map);
+void			put_pixel(t_map *map, int x, int y, t_color c);
 
 /*
 **	Parse
@@ -108,6 +134,8 @@ void			free_split(char **words);
 /*
 **	Engine
 */
-void			raycast(t_map *map);
+void			draw_player(t_map *map, t_pos pos, int size, t_color c);
+void			move_player(t_map *map, int x, int y);
+
 
 #endif

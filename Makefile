@@ -6,7 +6,7 @@
 #    By: agautier <agautier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/04 18:59:05 by agautier          #+#    #+#              #
-#    Updated: 2020/11/10 21:30:17 by agautier         ###   ########.fr        #
+#    Updated: 2020/11/15 16:19:50 by agautier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,21 +14,21 @@ NAME		=	Cub3D
 SRC			=	$(wildcard src/*.c)
 OBJ			=	$(SRC:.c=.o)
 CC			=	gcc
-CFLAGS		=	-Wall -Wextra -Werror -fsanitize=address -g3
-MLXFLAGS	=	-lXext -lX11
+CFLAGS		=	-fsanitize=address -g3	# -Wall -Wextra -Werror 
 HEADER_DIR	=	header
 LIB_DIR		=	lib
+LIBS		=	-lft -lm -lmlx -lXext -lX11
 
 all: $(NAME)
 
 $(NAME): libft mlx $(OBJ)
 	@echo -n "Génération de $(NAME)"
-	@$(CC) $(CFLAGS) -I$(HEADER_DIR) -L$(LIB_DIR) -g -o $@ $(OBJ) -lft -lmlx $(MLXFLAGS)
+	@$(CC) $(CFLAGS) -I$(HEADER_DIR) -L$(LIB_DIR) -g -o $@ $(OBJ) $(LIBS)
 	@echo "\033[32m\t\t\t\t[OK]\033[0m"
 
 %.o: %.c
 	@echo -n "Génération du fichier $@"
-	@$(CC) $(CFLAGS) -I$(HEADER_DIR) -L$(LIB_DIR) -c $< -o $@ -lft -lmlx $(MLXFLAGS)
+	@$(CC) $(CFLAGS) -I$(HEADER_DIR) -L$(LIB_DIR) -c $< -o $@ $(LIBS)
 	@echo "\033[32m\t\t[OK]\033[0m"
 
 libft:
