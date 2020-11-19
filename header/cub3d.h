@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 21:10:24 by agautier          #+#    #+#             */
-/*   Updated: 2020/11/15 23:24:18 by agautier         ###   ########.fr       */
+/*   Updated: 2020/11/19 21:32:39 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@
 # define STRUCTURE_NOTIFY_MASK	131072L
 # define VISIBILITY_NOTIFY		15
 # define VISIBILITY_CHANGE_MASK	65536L
+# define KEY_PRESS				2
+# define KEY_PRESS_MASK			1
 
 # define W_KEY 119
 # define A_KEY 97
@@ -69,6 +71,8 @@ typedef struct	s_pos
 typedef struct	s_player
 {
 	t_pos	pos;
+	t_pos	delta;
+	double	angle;
 	int		size;
 	t_color	color;
 }				t_player;
@@ -84,13 +88,20 @@ typedef struct	s_map
 	char		*sprite;
 	t_color		floor;
 	t_color		ceiling;
+	t_player	player;
+	t_color		bg_color;	// TODO: remove
 }				t_map;
 
-// typedef struct	s_game
-// {
-// 	t_map		map;
-// 	t_player	player;
-// }				t_game;
+typedef struct	s_draw_line
+{
+	t_pos	a;
+	t_pos	b;
+	t_color	c;
+	t_pos	d;
+	t_pos	s;
+	int		err;
+	int		e2;
+}				t_draw_line;
 
 /*
 **	Window
@@ -108,9 +119,9 @@ int				minimise_hook(t_map *map);
 /*
 **	Image
 */
+t_img			init_img(t_map *map);
 void			global_img(t_map *map);
 void			get_texture(t_map *map);
-void			put_pixel(t_map *map, int x, int y, t_color c);
 
 /*
 **	Parse
@@ -134,8 +145,18 @@ void			free_split(char **words);
 /*
 **	Engine
 */
-void			draw_player(t_map *map, t_pos pos, int size, t_color c);
-void			move_player(t_map *map, int x, int y);
+void			player(t_map *map, t_pos pos, int size, t_color c);
+void			move_player(t_map *map, t_pos pos);
+// t_color			get_color(t_map *map, int x, int y);
 
+/*
+**	Draw
+*/
+void			put_pixel(t_map *map, int x, int y, t_color c);
+void			put_square(t_map *map, t_pos pos, int size, t_color c);
+void			draw_map(t_map *map);
+void			draw_bg(t_map *map, t_color c);
+void			draw_player(t_map *map);
+void			draw_line(t_map *map, t_pos a, t_pos b, t_color c);
 
 #endif

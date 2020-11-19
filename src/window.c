@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 17:16:42 by agautier          #+#    #+#             */
-/*   Updated: 2020/11/12 18:35:28 by agautier         ###   ########.fr       */
+/*   Updated: 2020/11/18 16:53:51 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	global_win(t_map *map)
 
 int		close_win(t_map *map)
 {
+	printf("bye\n");
 	free_textures(map);
 	mlx_destroy_image(map->mlx.id, map->mlx.img.id);
 	mlx_destroy_window(map->mlx.id, map->mlx.win);
