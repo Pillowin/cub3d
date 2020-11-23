@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 21:10:24 by agautier          #+#    #+#             */
-/*   Updated: 2020/11/19 21:32:39 by agautier         ###   ########.fr       */
+/*   Updated: 2020/11/23 21:27:21 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,15 @@ typedef struct	s_player
 	t_color	color;
 }				t_player;
 
-typedef struct	s_map
+// typedef struct	s_map
+// {
+// 	int	**map;
+// }				t_map;
+
+typedef struct	s_game
 {
 	t_mlx		mlx;
+	int		**map;
 	t_res		res;
 	char		*north;
 	char		*south;
@@ -89,8 +95,8 @@ typedef struct	s_map
 	t_color		floor;
 	t_color		ceiling;
 	t_player	player;
-	t_color		bg_color;	// TODO: remove
-}				t_map;
+	t_color		bg_color;
+}				t_game;
 
 typedef struct	s_draw_line
 {
@@ -106,57 +112,68 @@ typedef struct	s_draw_line
 /*
 **	Window
 */
-void			global_win(t_map *map);
-int				close_win(t_map *map);
+void			global_win(t_game *game);
+int				close_win(t_game *game);
 
 /*
 **	Event
 */
-void			global_event(t_map *map);
-int				event_hook(int keycode, t_map *map);
-int				minimise_hook(t_map *map);
+void			global_event(t_game *game);
+int				event_hook(int keycode, t_game *game);
+int				minimise_hook(t_game *game);
 
 /*
 **	Image
 */
-t_img			init_img(t_map *map);
-void			global_img(t_map *map);
-void			get_texture(t_map *map);
+t_img			init_img(t_game *game);
+void			global_img(t_game *game);
 
 /*
 **	Parse
 */
-void			global_parse(char *filename, t_map *map);
-void			parse_line(char *line, t_map *map);
+void			global_parse(char *filename, t_game *game);
+void			parse_line(char *line, t_game *game);
 
 /*
 **	Fill struct
 */
-int				fill_resolution(t_map *map, char **words, int index);
-int				fill_texture(t_map *map, char **words, int index);
-int				fill_color(t_map *map, char **words, int index);
+int				fill_resolution(t_game *game, char **words, int index);
+int				fill_texture(t_game *game, char **words, int index);
+int				fill_color(t_game *game, char **words, int index);
 
 /*
 **	Free
 */
-void			free_textures(t_map *map);
+void			free_textures(t_game *game);
 void			free_split(char **words);
 
 /*
 **	Engine
 */
-void			player(t_map *map, t_pos pos, int size, t_color c);
-void			move_player(t_map *map, t_pos pos);
-// t_color			get_color(t_map *map, int x, int y);
+void			player(t_game *game, t_pos pos, int size, t_color c);
+void			move_player(t_game *game, t_pos pos);
+void			raycaster(t_game *game);
 
 /*
 **	Draw
 */
-void			put_pixel(t_map *map, int x, int y, t_color c);
-void			put_square(t_map *map, t_pos pos, int size, t_color c);
-void			draw_map(t_map *map);
-void			draw_bg(t_map *map, t_color c);
-void			draw_player(t_map *map);
-void			draw_line(t_map *map, t_pos a, t_pos b, t_color c);
+void			draw_map(t_game *game);
+void			draw_bg(t_game *game, t_color c);
+void			draw_player(t_game *game);
+void			draw_line(t_game *game, t_pos a, t_pos b, t_color c);
+
+/*
+**	Key player
+*/
+int				forward(t_game *game);
+int				backward(t_game *game);
+int				left(t_game *game);
+int				right(t_game *game);
+
+/*
+**	Put texture
+*/
+void			put_pixel(t_game *game, int x, int y, t_color c);
+void			put_square(t_game *game, t_pos pos, int size, t_color c);
 
 #endif

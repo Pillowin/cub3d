@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 16:39:31 by agautier          #+#    #+#             */
-/*   Updated: 2020/11/16 23:12:38 by agautier         ###   ########.fr       */
+/*   Updated: 2020/11/20 18:03:00 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	main(int argc, char *argv[])
 {
-	t_map	map;
+	t_game	game;
 
 	if (argc < 2)
 	{
@@ -22,11 +22,10 @@ int	main(int argc, char *argv[])
 		return (1);
 	}
 	printf("%s\n", argv[1]);
-	global_parse(argv[1], &map);
-	global_win(&map);
-	global_img(&map);
-	global_event(&map);
-	// raycast(&map);
-	mlx_loop(map.mlx.id);
+	global_parse(argv[1], &game);
+	global_win(&game);
+	global_img(&game);
+	global_event(&game);
+	mlx_loop(game.mlx.id);
 	return (0);
 }

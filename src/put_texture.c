@@ -1,35 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   put_texture.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/10 22:16:39 by agautier          #+#    #+#             */
+/*   Created: 2020/11/20 17:28:13 by agautier          #+#    #+#             */
 /*   Updated: 2020/11/20 18:03:00 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	free_textures(t_game *game)
+void		put_pixel(t_game *game, int x, int y, t_color c)
 {
-	ft_free(game->north);
-	ft_free(game->south);
-	ft_free(game->west);
-	ft_free(game->east);
-	ft_free(game->sprite);
+	game->mlx.img.data_addr[x * 4 + y * game->mlx.img.size_line + 0] = c.b;
+	game->mlx.img.data_addr[x * 4 + y * game->mlx.img.size_line + 1] = c.g;
+	game->mlx.img.data_addr[x * 4 + y * game->mlx.img.size_line + 2] = c.r;
+	game->mlx.img.data_addr[x * 4 + y * game->mlx.img.size_line + 3] = 0;
 }
 
-void	free_split(char **words)
+void		put_square(t_game *game, t_pos pos, int size, t_color c)
 {
-	int	i;
+	int	x;
+	int	y;
 
-	i = 0;
-	while (words[i])
+	y = 0;
+	while (y < size)
 	{
-		ft_free(words[i]);
-		i++;
+		x = 0;
+		while (x < size)
+		{
+			put_pixel(game, pos.x + x, pos.y + y, c);
+			x++;
+		}
+		y++;
 	}
-	ft_free(words);
 }

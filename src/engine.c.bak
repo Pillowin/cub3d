@@ -6,7 +6,7 @@
 #    By: agautier <agautier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/14 19:13:12 by agautier          #+#    #+#              #
-#    Updated: 2020/11/15 22:29:36 by agautier         ###   ########.fr        #
+#    Updated: 2020/11/20 18:03:00 by agautier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@
 // 	return (a * M_PI / 180);
 // }
 
-// double	horizontal_detection(t_map *map, char laby[7][7])
+// double	horizontal_detection(t_game *game, char laby[7][7])
 // {
 // 	int pos_initx = 3;
 // 	int pos_inity = 5;
@@ -93,7 +93,7 @@
 // 	return (0);
 // }
 
-// void	raycast(t_map *map)
+// void	raycast(t_game *game)
 // {
 
 // 	char	laby[7][7] =
@@ -109,15 +109,15 @@
 // 	double	dist_cam_proj;
 // 	double	step;
 
-// 	int	screenx = map->res.x;
-// 	int	screeny = map->res.y;
+// 	int	screenx = game->res.x;
+// 	int	screeny = game->res.y;
 
 // 	dist_cam_proj = screenx / 2 / tan(to_rad(FOV/2));
 // 	printf("dist_cam_proj = %f\n\n\n", dist_cam_proj);
 
 // 	step = FOV / screenx;
 
-// 	horizontal_detection(map, laby);
+// 	horizontal_detection(game, laby);
 // 	// hauteur_cam
 // 	// orientation cam
 // 	// fov
@@ -131,4 +131,3 @@
 // // distance	detection_mur_vertical()
 
 // // calcul_hauteur_colonne()
-

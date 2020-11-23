@@ -6,116 +6,93 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 17:24:07 by agautier          #+#    #+#             */
-/*   Updated: 2020/11/19 23:37:26 by agautier         ###   ########.fr       */
+/*   Updated: 2020/11/23 20:38:33 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void		put_pixel(t_map *map, int x, int y, t_color c)
-{
-	map->mlx.img.data_addr[x * 4 + y * map->mlx.img.size_line + 0] = c.b;
-	map->mlx.img.data_addr[x * 4 + y * map->mlx.img.size_line + 1] = c.g;
-	map->mlx.img.data_addr[x * 4 + y * map->mlx.img.size_line + 2] = c.r;
-	map->mlx.img.data_addr[x * 4 + y * map->mlx.img.size_line + 3] = 0;
-}
-
-void		put_square(t_map *map, t_pos pos, int size, t_color c)
+void		draw_bg(t_game *game, t_color c)
 {
 	int	x;
 	int	y;
 
+	game->bg_color = c;
 	y = 0;
-	while (y < size)
+	while (y < game->res.y * game->mlx.img.size_line)
 	{
 		x = 0;
-		while (x < size)
+		while (x < game->mlx.img.size_line)
 		{
-			put_pixel(map, pos.x + x, pos.y + y, c);
-			x++;
-		}
-		y++;
-	}
-}
-
-void		draw_bg(t_map *map, t_color c)
-{
-	int	x;
-	int	y;
-
-	map->bg_color = c;
-	y = 0;
-	while (y < map->res.y * map->mlx.img.size_line)
-	{
-		x = 0;
-		while (x < map->mlx.img.size_line)
-		{
-			map->mlx.img.data_addr[x + y + 0] = c.b;
-			map->mlx.img.data_addr[x + y + 1] = c.g;
-			map->mlx.img.data_addr[x + y + 2] = c.r;
-			map->mlx.img.data_addr[x + y + 3] = 0;
+			game->mlx.img.data_addr[x + y + 0] = c.b;
+			game->mlx.img.data_addr[x + y + 1] = c.g;
+			game->mlx.img.data_addr[x + y + 2] = c.r;
+			game->mlx.img.data_addr[x + y + 3] = 0;
 			x += 4;
 		}
-		y += map->res.x;
+		y += game->res.x;
 	}
 }
 
-void		draw_map(t_map *map)
+void		draw_map(t_game *game)
 {
-	char	laby[8][8] =
+	const char	map[8][8] =
 	{
-		{1,	1,	1,	1,	1,	1,	1,	1},
-		{1,	0,	0,	1,	1,	0,	0,	1},
-		{1,	0,	0,	1,	1,	0,	0,	1},
-		{1,	0,	0,	0,	0,	0,	0,	1},
-		{1,	0,	1,	0,	0,	0,	0,	1},
-		{1,	0,	0,	0,	0,	0,	0,	1},
-		{1,	0,	0,	0,	0,	0,	0,	1},
-		{1,	1,	1,	1,	1,	1,	1,	1}
+		{1, 1, 1, 1, 1, 1, 1, 1},
+		{1, 0, 0, 1, 1, 0, 0, 1},
+		{1, 0, 0, 1, 1, 0, 0, 1},
+		{1, 0, 0, 0, 0, 0, 0, 1},
+		{1, 0, 1, 0, 0, 0, 0, 1},
+		{1, 0, 0, 0, 0, 0, 0, 1},
+		{1, 0, 0, 0, 0, 0, 0, 1},
+		{1, 1, 1, 1, 1, 1, 1, 1}
 	};
-	int	map_x = 8;
-	int	map_y = 8;
-	int	map_s = 64;
-	int	x;
-	int	y;
+	t_pos		size;
+	int			x;
+	int			y;
 
+	size.x = 8;
+	size.y = 8;
 	y = 0;
-	while (y < map_y)
+	while (y < size.y)
 	{
 		x = 0;
-		while (x < map_x)
+		while (x < size.x)
 		{
-			if (laby[y][x])
-				put_square(map, (t_pos){x * map_s, y * map_s}, map_s - 1,
-						(t_color){255, 255, 255});
+			if (map[y][x])
+				put_square(game, (t_pos){x * size.x * size.y, y * size.x *
+						size.y}, size.x * size.y - 1, (t_color){255, 255, 255});
 			else
-				put_square(map, (t_pos){x * map_s, y * map_s}, map_s - 1,
-						(t_color){0, 0, 0});
+				put_square(game, (t_pos){x * size.x * size.y, y * size.x *
+						size.y}, size.x * size.y - 1, (t_color){0, 0, 0});
 			x++;
 		}
 		y++;
 	}
 }
 
-void		draw_player(t_map *map)
+void		draw_player(t_game *game)
 {
+	t_pos	pos;
 	t_pos	direction;
 
-	direction.x = map->player.pos.x + cos(map->player.angle) * 21;
-	direction.y = map->player.pos.y + sin(map->player.angle) * 21;
-	put_square(map, (t_pos){map->player.pos.x - map->player.size / 2, map->player.pos.y - map->player.size / 2}, map->player.size, map->player.color);
-	draw_line(map, map->player.pos, direction, map->player.color);
+	pos.x = game->player.pos.x - game->player.size / 2;
+	pos.y = game->player.pos.y - game->player.size / 2;
+	direction.x = game->player.pos.x + cos(game->player.angle) * 21;
+	direction.y = game->player.pos.y + sin(game->player.angle) * 21;
+	put_square(game, pos, game->player.size, game->player.color);
+	draw_line(game, game->player.pos, direction, game->player.color);
 }
 
 /*
 **	Bresenham's line algorithm
 */
 
-static void	draw_line_loop(t_map *map, t_draw_line dl)
+static void	draw_line_loop(t_game *game, t_draw_line dl)
 {
 	while (dl.a.x != dl.b.x || dl.a.y != dl.b.y)
 	{
-		put_pixel(map, dl.a.x, dl.a.y, dl.c);
+		put_pixel(game, dl.a.x, dl.a.y, dl.c);
 		dl.e2 = dl.err;
 		if (dl.e2 > -dl.d.x)
 		{
@@ -130,7 +107,7 @@ static void	draw_line_loop(t_map *map, t_draw_line dl)
 	}
 }
 
-void		draw_line(t_map *map, t_pos a, t_pos b, t_color c)
+void		draw_line(t_game *game, t_pos a, t_pos b, t_color c)
 {
 	t_draw_line	dl;
 
@@ -151,5 +128,5 @@ void		draw_line(t_map *map, t_pos a, t_pos b, t_color c)
 		dl.err = dl.d.x / 2;
 	else
 		dl.err = -dl.d.y / 2;
-	draw_line_loop(map, dl);
+	draw_line_loop(game, dl);
 }
