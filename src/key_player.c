@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/20 17:08:06 by agautier          #+#    #+#             */
-/*   Updated: 2020/11/20 18:03:00 by agautier         ###   ########.fr       */
+/*   Updated: 2020/11/24 22:11:45 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	backward(t_game *game)
 
 int	left(t_game *game)
 {
-	game->player.angle -= 0.3;
+	game->player.angle -= 0.2;
 	if (game->player.angle < 0)
 		game->player.angle += 2 * M_PI;
 	game->player.delta.x = cos(game->player.angle) * 5;
@@ -41,7 +41,7 @@ int	left(t_game *game)
 
 int	right(t_game *game)
 {
-	game->player.angle += 0.3;
+	game->player.angle += 0.2;
 	if (game->player.angle > 2 * M_PI)
 		game->player.angle -= 2 * M_PI;
 	game->player.delta.x = cos(game->player.angle) * 5;

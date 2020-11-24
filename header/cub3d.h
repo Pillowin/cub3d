@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 21:10:24 by agautier          #+#    #+#             */
-/*   Updated: 2020/11/23 21:27:21 by agautier         ###   ########.fr       */
+/*   Updated: 2020/11/24 21:45:24 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # define VISIBILITY_CHANGE_MASK	65536L
 # define KEY_PRESS				2
 # define KEY_PRESS_MASK			1
+# define DEG 0.0174533
 
 # define W_KEY 119
 # define A_KEY 97
@@ -68,6 +69,12 @@ typedef struct	s_pos
 	int	y;
 }				t_pos;
 
+typedef struct	s_dpos
+{
+	double	x;
+	double	y;
+}				t_dpos;
+
 typedef struct	s_player
 {
 	t_pos	pos;
@@ -85,7 +92,7 @@ typedef struct	s_player
 typedef struct	s_game
 {
 	t_mlx		mlx;
-	int		**map;
+	int			**map;
 	t_res		res;
 	char		*north;
 	char		*south;
@@ -109,6 +116,29 @@ typedef struct	s_draw_line
 	int		e2;
 }				t_draw_line;
 
+/*
+**	DDA
+*/
+
+typedef struct	s_ray
+{
+	double	x;
+	double	y;
+	double	a;
+}				t_ray;
+
+typedef struct	s_dda
+{
+	int		nb_ray;		// r
+	int		limit;		// dof
+	double	dist_h;		// distH
+	double	dist_v;		// distV
+	t_pos	map_pos;	// my mx
+	t_ray	ray;		// rx ry ra
+	t_dpos	offset;		// xo yo
+	t_dpos	inter_h;	// hx hy
+	t_dpos	inter_v;	// vx vy
+}				t_dda;
 /*
 **	Window
 */

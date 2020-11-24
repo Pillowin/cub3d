@@ -12,6 +12,26 @@
 
 #include "cub3d.h"
 
+void	ft_debug_dda(t_dda *dda)
+{
+	printf("\n-----\n");
+	printf("nb_ray = %d\n", dda->nb_ray);
+	printf("limit = %d\n", dda->limit);
+	printf("dist_h = %f\n", dda->dist_h);
+	printf("dist_v = %f\n", dda->dist_v);
+	printf("map_pos.x = %d\n", dda->map_pos.x);
+	printf("map_pos.y = %d\n", dda->map_pos.y);
+	printf("ray.x = %f\n", dda->ray.x);
+	printf("ray.y = %f\n", dda->ray.y);
+	printf("ray.a = %f\n", dda->ray.a);
+	printf("offset.x = %f\n", dda->offset.x);
+	printf("offset.y = %f\n", dda->offset.y);
+	printf("inter_h.x = %f\n", dda->inter_h.x);
+	printf("inter_h.y = %f\n", dda->inter_h.y);
+	printf("inter_v.x = %f\n", dda->inter_v.x);
+	printf("inter_v.y = %f\n", dda->inter_v.y);
+}
+
 void	player(t_game *game, t_pos pos, int size, t_color c)
 {
 	game->player.pos.x = pos.x;
@@ -37,35 +57,44 @@ void	move_player(t_game *game, t_pos pos)
 	}
 }
 
-double	dist(double ax, double ay, double bx, double by, double ang)
+double	dist(t_game *game, t_dpos inter)
 {
-	(void)ang;
-	return (sqrt((bx-ax) * (bx-ax) + (by-ay) * (by-ay)));
+	return (sqrt((inter.x - game->player.pos.x) * (inter.x - game->player.pos.x) + (inter.y - game->player.pos.y) * (inter.y - game->player.pos.y)));
 }
 
-void	raycaster(t_game *game)
+void	dda_h_direction(t_game *game, t_dda *dda)
 {
-	int	r;
-	int	mx;
-	int	my;
-	int	mp;
-	int	dof;
-	double	rx;
-	double	ry;
-	double	ra;
-	double	xo;
-	double	yo;
 	double	atan;
-	double	ntan;
-	double	distH = 1000000;
-	double	hx = game->player.pos.x;
-	double	hy = game->player.pos.y;
-	double	distV = 1000000;
-	double	vx = game->player.pos.x;
-	double	vy = game->player.pos.y;
+
+	atan = -1 / tan(dda->ray.a);
+	if (dda->ray.a > M_PI)
+	{
+		dda->ray.y = (((int)game->player.pos.y >> 6) << 6) - 0.0001;
+		dda->ray.x = (game->player.pos.y - dda->ray.y) * atan
+				+ game->player.pos.x;
+		dda->offset.y = -64;
+		dda->offset.x = -dda->offset.y * atan;
+	}
+	else if (dda->ray.a < M_PI)
+	{
+		dda->ray.y = (((int)game->player.pos.y >> 6) << 6) + 64;
+		dda->ray.x = (game->player.pos.y - dda->ray.y) * atan
+				+ game->player.pos.x;
+		dda->offset.y = 64;
+		dda->offset.x = -dda->offset.y * atan;
+	}
+	else
+	{
+		dda->ray.x = game->player.pos.x;
+		dda->ray.y = game->player.pos.y;
+		dda->limit = 8;
+	}
+}
+
+void	dda_horizontal(t_game *game, t_dda *dda)
+{
 	int	mapX = 8;
 	int	mapY = 8;
-	t_color	col;
 	const char	map[8][8] =
 	{
 		{1, 1, 1, 1, 1, 1, 1, 1},
@@ -78,111 +107,140 @@ void	raycaster(t_game *game)
 		{1, 1, 1, 1, 1, 1, 1, 1}
 	};
 
-	ra = game->player.angle;
-	r = 0;
-	while (r < 1)
-	{
-		// Horizontal lines
-		dof = 0;
-		atan = -1 / tan(ra);
-		if (ra > M_PI)	// Looking down
-		{
-			ry = (((int)game->player.pos.y >> 6) << 6) - 0.0001;
-			rx = (game->player.pos.y - ry) * atan + game->player.pos.x;
-			yo = -64;
-			xo = -yo * atan;
-		}
-		if (ra < M_PI)	// Looking up
-		{
-			ry = (((int)game->player.pos.y >> 6) << 6) + 64;
-			rx = (game->player.pos.y - ry) * atan + game->player.pos.x;
-			yo = 64;
-			xo = -yo * atan;
-		}
-		if (ra == 0 || ra == M_PI)	// Looking straight left or right
-		{
-			rx = game->player.pos.x;
-			ry = game->player.pos.y;
-			dof = 8;
-		}
-		while (dof < 8)
-		{
-			mx = (int)rx >> 6;
-			my = (int)ry >> 6;
-			mp = my * mapX + mx;	// mapX
-			if (mp > 0 && mp < mapX * mapY && map[my][mx] == 1)	// Hit wall
-			{
-				hx = rx;
-				hy = ry;
-				distH = dist(game->player.pos.x, game->player.pos.y, hx, hy, game->player.angle);
-				dof = 8;
-			}
-			else
-			{
-				rx += xo;
-				ry += yo;
-				dof += 1;
-			}
-		}
+	double	map_pos;
 
-		// Vertical lines
-		dof = 0;
-		ntan = -tan(ra);
-		if (ra > M_PI_2 && ra < 3 * M_PI_2)	// Looking left
+	dda->dist_h = 1000000;
+	dda->limit = 0;
+	dda_h_direction(game, dda);
+	while (dda->limit < 8)
+	{
+		dda->map_pos.x = (int)dda->ray.x >> 6;
+		dda->map_pos.y = (int)dda->ray.y >> 6;
+		map_pos = dda->map_pos.y * mapX + dda->map_pos.x;	// mapX
+		if (map_pos > 0 && map_pos < mapX * mapY
+				&& map[dda->map_pos.y][dda->map_pos.x] == 1)	// Hit wall
 		{
-			rx = (((int)game->player.pos.x >> 6) << 6) - 0.0001;
-			ry = (game->player.pos.x - rx) * ntan + game->player.pos.y;
-			xo = -64;
-			yo = -xo * ntan;
+			dda->inter_h.x = dda->ray.x;
+			dda->inter_h.y = dda->ray.y;
+			dda->dist_h = dist(game, dda->inter_h);
+			dda->limit = 8;
 		}
-		if (ra < M_PI_2 || ra > 3 * M_PI_2)	// Looking right
+		else
 		{
-			rx = (((int)game->player.pos.x >> 6) << 6) + 64;
-			ry = (game->player.pos.x - rx) * ntan + game->player.pos.y;
-			xo = 64;
-			yo = -xo * ntan;
+			dda->ray.x += dda->offset.x;
+			dda->ray.y += dda->offset.y;
+			dda->limit += 1;
 		}
-		if (ra == 0 || ra == M_PI)	// Looking straight up or down
+	}
+}
+
+void	dda_v_direction(t_game *game, t_dda *dda)
+{
+	double	ntan;
+
+	ntan = -tan(dda->ray.a);
+	if (dda->ray.a > M_PI_2 && dda->ray.a < 3 * M_PI_2)
+	{
+		dda->ray.x = (((int)game->player.pos.x >> 6) << 6) - 0.0001;
+		dda->ray.y = (game->player.pos.x - dda->ray.x) * ntan
+				+ game->player.pos.y;
+		dda->offset.x = -64;
+		dda->offset.y = -dda->offset.x * ntan;
+	}
+	else if (dda->ray.a < M_PI_2 || dda->ray.a > 3 * M_PI_2)
+	{
+		dda->ray.x = (((int)game->player.pos.x >> 6) << 6) + 64;
+		dda->ray.y = (game->player.pos.x - dda->ray.x) * ntan
+				+ game->player.pos.y;
+		dda->offset.x = 64;
+		dda->offset.y = -dda->offset.x * ntan;
+	}
+	else
+	{
+		dda->ray.x = game->player.pos.x;
+		dda->ray.y = game->player.pos.y;
+		dda->limit = 8;
+	}
+}
+
+void	dda_vertical(t_game *game, t_dda *dda)
+{
+	int	mapX = 8;
+	int	mapY = 8;
+	const char	map[8][8] =
+	{
+		{1, 1, 1, 1, 1, 1, 1, 1},
+		{1, 0, 0, 1, 1, 0, 0, 1},
+		{1, 0, 0, 1, 1, 0, 0, 1},
+		{1, 0, 0, 0, 0, 0, 0, 1},
+		{1, 0, 1, 0, 0, 0, 0, 1},
+		{1, 0, 0, 0, 0, 0, 0, 1},
+		{1, 0, 0, 0, 0, 0, 0, 1},
+		{1, 1, 1, 1, 1, 1, 1, 1}
+	};
+	double	map_pos;
+
+	dda->dist_v = 1000000;
+	dda->limit = 0;
+	dda_v_direction(game, dda);
+	while (dda->limit < 8)
+	{
+		dda->map_pos.x = (int)dda->ray.x >> 6;
+		dda->map_pos.y = (int)dda->ray.y >> 6;
+		map_pos = dda->map_pos.y * mapX + dda->map_pos.x;	// mapX
+		if (map_pos > 0 && map_pos < mapX * mapY
+				&& map[dda->map_pos.y][dda->map_pos.x] == 1)	// Hit wall
 		{
-			rx = game->player.pos.x;
-			ry = game->player.pos.y;
-			dof = 8;
+			dda->inter_v.x = dda->ray.x;
+			dda->inter_v.y = dda->ray.y;
+			dda->dist_v = dist(game, dda->inter_v);
+			dda->limit = 8;
 		}
-		while (dof < 8)
+		else
 		{
-			mx = (int)rx >> 6;
-			my = (int)ry >> 6;
-			mp = my * mapX + mx;	// mapX
-			if (mp > 0 && mp < mapX * mapY && map[my][mx] == 1)	// Hit wall
-			{
-				vx = rx;
-				vy = ry;
-				distV = dist(game->player.pos.x, game->player.pos.y, vx, vy, game->player.angle);
-				dof = 8;
-			}
-			else
-			{
-				rx += xo;
-				ry += yo;
-				dof += 1;
-			}
+			dda->ray.x += dda->offset.x;
+			dda->ray.y += dda->offset.y;
+			dda->limit += 1;
 		}
-		r++;
-		if (distV < distH)	// Vertical hit
+	}
+}
+// void	fov(t_game *game)
+// {
+
+// }
+
+void	raycaster(t_game *game)
+{
+	t_dda	dda;
+	t_color	col;
+
+	// dda.ray.a = game->player.angle;
+	dda.ray.a = game->player.angle - 30 * DEG;
+	dda.nb_ray = 0;
+	while (dda.nb_ray < 60)
+	{
+		if (dda.ray.a < 0)
+			dda.ray.a += 2 * M_PI;
+		if (dda.ray.a > 2 * M_PI)
+			dda.ray.a -= 2 * M_PI;
+		dda_horizontal(game, &dda);
+		dda_vertical(game, &dda);
+		if (dda.dist_v < dda.dist_h)	// Vertical hit
 		{
-			rx = vx;
-			ry = vy;
+			dda.ray.x = dda.inter_v.x;
+			dda.ray.y = dda.inter_v.y;
 			col = (t_color){255, 0, 0};
 		}
-		if (distH < distV)	// Horizontal hit
+		if (dda.dist_h < dda.dist_v)	// Horizontal hit
 		{
-			rx = hx;
-			ry = hy;
+			dda.ray.x = dda.inter_h.x;
+			dda.ray.y = dda.inter_h.y;
 			col = (t_color){0, 255, 0};
 		}
-		draw_line(game, game->player.pos, (t_pos){rx, ry}, col);
-		// draw_line(game, game->player.pos, (t_pos){rx, ry}, (t_color){0, 255, 0});
-		r++;
+		// ft_debug_dda(&dda);
+		draw_line(game, game->player.pos, (t_pos){dda.ray.x, dda.ray.y}, col);
+		dda.nb_ray++;
+		dda.ray.a += DEG;
 	}
 }
 
