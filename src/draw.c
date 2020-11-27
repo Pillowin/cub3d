@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 17:24:07 by agautier          #+#    #+#             */
-/*   Updated: 2020/11/23 20:38:33 by agautier         ###   ########.fr       */
+/*   Updated: 2020/11/27 19:59:58 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,18 @@ void		draw_bg(t_game *game, t_color c)
 		x = 0;
 		while (x < game->mlx.img.size_line)
 		{
-			game->mlx.img.data_addr[x + y + 0] = c.b;
-			game->mlx.img.data_addr[x + y + 1] = c.g;
-			game->mlx.img.data_addr[x + y + 2] = c.r;
+			if (y < game->res.y * game->mlx.img.size_line / 2)
+			{
+				game->mlx.img.data_addr[x + y + 2] = 119;
+				game->mlx.img.data_addr[x + y + 0] = 254;
+				game->mlx.img.data_addr[x + y + 1] = 181;
+			}
+			else
+			{
+				game->mlx.img.data_addr[x + y + 0] = c.b;
+				game->mlx.img.data_addr[x + y + 1] = c.g;
+				game->mlx.img.data_addr[x + y + 2] = c.r;
+			}
 			game->mlx.img.data_addr[x + y + 3] = 0;
 			x += 4;
 		}

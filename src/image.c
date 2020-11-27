@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 17:17:22 by agautier          #+#    #+#             */
-/*   Updated: 2020/11/24 19:31:54 by agautier         ###   ########.fr       */
+/*   Updated: 2020/11/27 20:02:59 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,6 @@ void	global_img(t_game *game)
 	draw_bg(game, (t_color){76, 76, 76});
 	draw_map(game);
 	draw_player(game);
+	raycaster(game);
 	mlx_put_image_to_window(game->mlx.id, game->mlx.win, game->mlx.img.id, 0, 0);
 }

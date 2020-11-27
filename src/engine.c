@@ -213,6 +213,7 @@ void	raycaster(t_game *game)
 {
 	t_dda	dda;
 	t_color	col;
+	double	distT;
 
 	// dda.ray.a = game->player.angle;
 	dda.ray.a = game->player.angle - 30 * DEG;
@@ -229,16 +230,36 @@ void	raycaster(t_game *game)
 		{
 			dda.ray.x = dda.inter_v.x;
 			dda.ray.y = dda.inter_v.y;
-			col = (t_color){255, 0, 0};
+			distT = dda.dist_v;	// TODO:
+			col = (t_color){187, 11, 11};
 		}
 		if (dda.dist_h < dda.dist_v)	// Horizontal hit
 		{
 			dda.ray.x = dda.inter_h.x;
 			dda.ray.y = dda.inter_h.y;
-			col = (t_color){0, 255, 0};
+			distT = dda.dist_h;	// TODO:
+			col = (t_color){164, 36, 36};
 		}
 		// ft_debug_dda(&dda);
 		draw_line(game, game->player.pos, (t_pos){dda.ray.x, dda.ray.y}, col);
+		double ca = game->player.angle - dda.ray.a;
+		if (ca < 0)
+			ca += 2 * M_PI;
+		if (ca > 2 * M_PI)
+			ca -= 2 * M_PI;
+		distT = distT * cos(ca);
+		double lineH = (64 * 490) / distT;
+		if (lineH > 490)
+			lineH = 490;
+		double lineO = 250 - lineH / 2;
+		draw_line(game, (t_pos){dda.nb_ray*8+516, lineO}, (t_pos){dda.nb_ray*8+516, lineO + lineH}, col);
+		draw_line(game, (t_pos){dda.nb_ray*8+516 + 1, lineO}, (t_pos){dda.nb_ray*8+516 + 1, lineO + lineH}, col);
+		draw_line(game, (t_pos){dda.nb_ray*8+516 + 2, lineO}, (t_pos){dda.nb_ray*8+516 + 2, lineO + lineH}, col);
+		draw_line(game, (t_pos){dda.nb_ray*8+516 + 3, lineO}, (t_pos){dda.nb_ray*8+516 + 3, lineO + lineH}, col);
+		draw_line(game, (t_pos){dda.nb_ray*8+516 + 4, lineO}, (t_pos){dda.nb_ray*8+516 + 4, lineO + lineH}, col);
+		draw_line(game, (t_pos){dda.nb_ray*8+516 + 5, lineO}, (t_pos){dda.nb_ray*8+516 + 5, lineO + lineH}, col);
+		draw_line(game, (t_pos){dda.nb_ray*8+516 + 6, lineO}, (t_pos){dda.nb_ray*8+516 + 6, lineO + lineH}, col);
+		draw_line(game, (t_pos){dda.nb_ray*8+516 + 7, lineO}, (t_pos){dda.nb_ray*8+516 + 7, lineO + lineH}, col);
 		dda.nb_ray++;
 		dda.ray.a += DEG;
 	}
