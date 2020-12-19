@@ -6,15 +6,16 @@
 #    By: agautier <agautier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/04 18:59:05 by agautier          #+#    #+#              #
-#    Updated: 2020/11/19 23:45:38 by agautier         ###   ########.fr        #
+#    Updated: 2020/12/19 20:21:47 by agautier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	Cub3D
-SRC			=	$(wildcard src/*.c)
+SRC			=	$(wildcard src/*.c) $(wildcard src/parsing/*.c)
 OBJ			=	$(SRC:.c=.o)
 CC			=	gcc
-CFLAGS		=	-fsanitize=address -g3 -Wall -Wextra -Werror 
+CFLAGS		=	-Wall -Wextra -Werror
+#-fsanitize=address -g3 
 HEADER_DIR	=	header
 LIB_DIR		=	lib
 LIBS		=	-lft -lm -lmlx -lXext -lX11

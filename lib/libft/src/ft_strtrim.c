@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 10:58:06 by agautier          #+#    #+#             */
-/*   Updated: 2020/11/11 14:09:52 by agautier         ###   ########.fr       */
+/*   Updated: 2020/11/29 18:30:48 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ static int	ft_count_char(char const *s1, char const *set)
 }
 
 /*
-**	Alloue (avec malloc(3)) et retourne une copie dela chaine ’s1’, sans les
-**	caractères spécifiésdans ’set’ au début et à la fin de la chaine de
+**	Alloue (avec malloc(3)) et retourne une copie de la chaine ’s1’, sans les
+**	caractères spécifiés dans ’set’ au début et à la fin de la chaine de
 **	caractères.
 */
 

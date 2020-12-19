@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 17:07:40 by agautier          #+#    #+#             */
-/*   Updated: 2020/11/20 18:03:00 by agautier         ###   ########.fr       */
+/*   Updated: 2020/12/03 16:52:44 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	global_event(t_game *game)
 {
-	mlx_hook(game->mlx.win, DESTROY_NOTIFY, STRUCTURE_NOTIFY_MASK,
+	mlx_hook(game->mlx.win, CLIENT_MESSAGE, STRUCTURE_NOTIFY_MASK,
 			close_win, game);
 	mlx_hook(game->mlx.win, VISIBILITY_NOTIFY, VISIBILITY_CHANGE_MASK,
 			minimise_hook, game);

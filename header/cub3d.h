@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 21:10:24 by agautier          #+#    #+#             */
-/*   Updated: 2020/11/24 21:45:24 by agautier         ###   ########.fr       */
+/*   Updated: 2020/12/19 20:21:16 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <math.h>
 
 # define ESC_KEY				65307
-# define DESTROY_NOTIFY			17
+# define CLIENT_MESSAGE			33
 # define STRUCTURE_NOTIFY_MASK	131072L
 # define VISIBILITY_NOTIFY		15
 # define VISIBILITY_CHANGE_MASK	65536L
@@ -33,6 +33,15 @@
 # define A_KEY 97
 # define S_KEY 115
 # define D_KEY 100
+
+enum	e_err {
+	ERR_PLAYER,
+	ERR_OPEN_MAP,
+	ERR_RES,
+	ERR_TEXTURE,
+	ERR_COL,
+	ERR_DATA
+};
 
 typedef struct	s_img
 {
@@ -92,7 +101,7 @@ typedef struct	s_player
 typedef struct	s_game
 {
 	t_mlx		mlx;
-	int			**map;
+	char		**map;
 	t_res		res;
 	char		*north;
 	char		*south;
@@ -103,6 +112,7 @@ typedef struct	s_game
 	t_color		ceiling;
 	t_player	player;
 	t_color		bg_color;
+	enum e_err	err;
 }				t_game;
 
 typedef struct	s_draw_line
@@ -139,6 +149,7 @@ typedef struct	s_dda
 	t_dpos	inter_h;	// hx hy
 	t_dpos	inter_v;	// vx vy
 }				t_dda;
+
 /*
 **	Window
 */
@@ -162,7 +173,17 @@ void			global_img(t_game *game);
 **	Parse
 */
 void			global_parse(char *filename, t_game *game);
-void			parse_line(char *line, t_game *game);
+void			parse_data(char *line, t_game *game, int *data_parsed);
+void			parse_map(t_game *game, char *buffer);
+
+/*
+**	Parse utils
+*/
+int				parsed_data(int *parsing);
+int				find_elem(char **words, const char **tab);
+int				line_is_spaces(char *str);
+int				is_player(t_game *game, int x, int y);
+char			*fill_buffer(char *line);
 
 /*
 **	Fill struct
@@ -205,5 +226,27 @@ int				right(t_game *game);
 */
 void			put_pixel(t_game *game, int x, int y, t_color c);
 void			put_square(t_game *game, t_pos pos, int size, t_color c);
+
+/*
+** Check map
+*/
+int				check_player(t_game *game);
+int				find_zeros(t_game *game);
+int				find_zeros(t_game *game);
+int				check_closed_map(t_game *game);
+
+/*
+** Check close map
+*/
+int				check_horizontaly_begin(t_game *game);
+int				check_horizontaly_end(t_game *game);
+int				check_verticaly_begin(t_game *game);
+int				check_verticaly_end(t_game *game);
+
+/*
+** Error
+*/
+int				set_error(t_game *game, enum e_err error);
+void			ft_error(t_game *game);
 
 #endif
