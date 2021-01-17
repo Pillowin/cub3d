@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/19 20:18:37 by agautier          #+#    #+#             */
-/*   Updated: 2020/12/19 20:18:38 by agautier         ###   ########.fr       */
+/*   Created: 2020/12/07 17:42:07 by mamaquig          #+#    #+#             */
+/*   Updated: 2020/12/28 17:17:39 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-static void	find_max(t_game *game, int *max_x, int *max_y)
+void	find_max(t_game *game, int *max_x, int *max_y)
 {
 	int	x;
 

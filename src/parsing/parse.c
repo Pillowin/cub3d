@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/19 20:18:20 by agautier          #+#    #+#             */
-/*   Updated: 2020/12/19 20:18:22 by agautier         ###   ########.fr       */
+/*   Created: 2020/12/15 18:40:04 by mamaquig          #+#    #+#             */
+/*   Updated: 2020/12/20 19:1:07 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,20 @@ void		global_parse(char *filename, t_game *game)
 	{
 		if (parsed_data(data_parsed))
 			buffer = fill_buffer(line);
-		else
+		else if (line)
 			parse_data(line, game, data_parsed);
-		free(line);
+		ft_free(line);
 	}
 	if (parsed_data(data_parsed))
 		buffer = fill_buffer(line);
-	parse_map(game, buffer);
+	ft_free(line);
+	if (!parse_map(game, buffer))
+	{
+		ft_free(buffer);
+		ft_error(game);
+	}
 	// printf("buffer =\n%s\n", buffer);	// TODO: Remove
-	free(buffer);
-	free(line);
+	ft_free(buffer);
 	close(fd);
 }
 
@@ -63,18 +67,20 @@ void		parse_data(char *line, t_game *game, int *data_parsed)
 	{
 		words = ft_split_charset(line, ft_get_whitespaces());
 		index = find_elem(words, tab);
-		if (index >= 0 && !(data_parsed[index] = tab_f[index](game,
+		if ((index >= 0 && !(data_parsed[index] = tab_f[index](game,
 			words, index)))
+			|| (index == -1 && words[0]))
 		{
 			free_split(words);
-			free(line);
-			exit(1);
+			ft_free(line);
+			set_error(game, ERR_DATA);
+			ft_error(game);
 		}
 		free_split(words);
 	}
 }
 
-void		parse_map(t_game *game, char *buffer)
+int		parse_map(t_game *game, char *buffer)
 {
 	int	index;
 
@@ -82,6 +88,8 @@ void		parse_map(t_game *game, char *buffer)
 	while (buffer[index])
 		index++;
 	index--;
+	if (index < 0)
+		return (set_error(game, ERR_MAP));
 	while (buffer[index] == '\n' || buffer[index] == ' ')
 	{
 		buffer[index] = '\0';
@@ -89,9 +97,10 @@ void		parse_map(t_game *game, char *buffer)
 	}
 	game->map = ft_split(buffer, '\n');
 	if (!check_player(game))
-		ft_error(game);
+		return (set_error(game, ERR_MAP));
 	if (!find_zeros(game))
-		ft_error(game);
+		return (set_error(game, ERR_MAP));
 	if (!check_closed_map(game))
-		ft_error(game);
+		return (set_error(game, ERR_MAP));
+	return (1);
 }

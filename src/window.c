@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/04 17:16:42 by agautier          #+#    #+#             */
-/*   Updated: 2020/12/03 18:43:50 by agautier         ###   ########.fr       */
+/*   Created: 2020/11/04 17:16:40 by mamaquig          #+#    #+#             */
+/*   Updated: 2021/01/14 17:35:12 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,25 @@
 
 void	global_win(t_game *game)
 {
-	int	x;
-	int	y;
+	int x;
+	int y;
 
-	game->mlx.id = mlx_init();
 	mlx_get_screen_size(game->mlx.id, &x, &y);
 	if (game->res.x > x)
 		game->res.x = x;
 	if (game->res.y > y)
 		game->res.y = y;
+	if (game->res.y <= 0 || game->res.x <= 0)
+	{
+		set_error(game, ERR_DATA);
+		ft_error(game);
+	}
 	game->mlx.win = mlx_new_window(game->mlx.id, game->res.x, game->res.y, "Cub3D");
 }
 
 int		close_win(t_game *game)
 {
-	printf("bye\n");
-	free_textures(game);
-	mlx_destroy_image(game->mlx.id, game->mlx.img.id);
-	mlx_destroy_window(game->mlx.id, game->mlx.win);
-	mlx_destroy_display(game->mlx.id);
+	free_game(game);
 	exit(0);
 	return (0);
 }

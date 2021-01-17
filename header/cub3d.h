@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 21:10:24 by agautier          #+#    #+#             */
-/*   Updated: 2020/12/19 20:21:16 by agautier         ###   ########.fr       */
+/*   Updated: 2021/01/17 14:59:18 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,28 +20,46 @@
 # include <fcntl.h>
 # include <math.h>
 
-# define ESC_KEY				65307
 # define CLIENT_MESSAGE			33
 # define STRUCTURE_NOTIFY_MASK	131072L
 # define VISIBILITY_NOTIFY		15
 # define VISIBILITY_CHANGE_MASK	65536L
+# define KEY_PRESS_MASK			0
+# define KEY_RELEASE_MASK		1
 # define KEY_PRESS				2
-# define KEY_PRESS_MASK			1
-# define DEG 0.0174533
+# define KEY_RELEASE			3
 
-# define W_KEY 119
-# define A_KEY 97
-# define S_KEY 115
-# define D_KEY 100
+# define DEG			0.0174533
+# define RAD			57
+# define FOV			60
+# define SPEED			5
+# define ROTATION_SPEED	3
+
+# define ESC_KEY			65307
+# define Z_KEY				119
+# define Q_KEY				97
+# define S_KEY				115
+# define D_KEY				100
+# define ARROW_LEFT_KEY		65361
+# define ARROW_RIGHT_KEY	65363
 
 enum	e_err {
-	ERR_PLAYER,
-	ERR_OPEN_MAP,
-	ERR_RES,
-	ERR_TEXTURE,
-	ERR_COL,
-	ERR_DATA
+	ERR_MAP,
+	ERR_DATA,
+	ERR_TEXTURE
 };
+
+typedef struct	s_pos
+{
+	int	x;
+	int	y;
+}				t_pos;
+
+typedef struct	s_dpos
+{
+	double	x;
+	double	y;
+}				t_dpos;
 
 typedef struct	s_img
 {
@@ -50,6 +68,7 @@ typedef struct	s_img
 	int		bpp;
 	int		size_line;
 	int		endian;
+	t_pos	res;
 }				t_img;
 
 typedef struct	s_mlx
@@ -72,17 +91,15 @@ typedef struct	s_color
 	int	b;
 }				t_color;
 
-typedef struct	s_pos
+typedef struct s_key
 {
-	int	x;
-	int	y;
-}				t_pos;
-
-typedef struct	s_dpos
-{
-	double	x;
-	double	y;
-}				t_dpos;
+	int		z;
+	int		q;
+	int		s;
+	int		d;
+	int		arrow_left;
+	int		arrow_right;
+}				t_key;
 
 typedef struct	s_player
 {
@@ -90,28 +107,29 @@ typedef struct	s_player
 	t_pos	delta;
 	double	angle;
 	int		size;
+	t_key	key;
 	t_color	color;
 }				t_player;
-
-// typedef struct	s_map
-// {
-// 	int	**map;
-// }				t_map;
 
 typedef struct	s_game
 {
 	t_mlx		mlx;
 	char		**map;
-	t_res		res;
 	char		*north;
 	char		*south;
 	char		*west;
 	char		*east;
 	char		*sprite;
+	t_img		north_data;
+	t_img		south_data;
+	t_img		west_data;
+	t_img		east_data;
+	t_img		sprite_data;
+	t_res		res;
 	t_color		floor;
 	t_color		ceiling;
 	t_player	player;
-	t_color		bg_color;
+	// t_color		bg_color;
 	enum e_err	err;
 }				t_game;
 
@@ -126,10 +144,6 @@ typedef struct	s_draw_line
 	int		e2;
 }				t_draw_line;
 
-/*
-**	DDA
-*/
-
 typedef struct	s_ray
 {
 	double	x;
@@ -139,15 +153,20 @@ typedef struct	s_ray
 
 typedef struct	s_dda
 {
-	int		nb_ray;		// r
-	int		limit;		// dof
-	double	dist_h;		// distH
-	double	dist_v;		// distV
-	t_pos	map_pos;	// my mx
-	t_ray	ray;		// rx ry ra
-	t_dpos	offset;		// xo yo
-	t_dpos	inter_h;	// hx hy
-	t_dpos	inter_v;	// vx vy
+	int		nb_ray;
+	int		limit;
+	double	dist_h;
+	double	dist_v;
+	t_pos	map_pos;
+	t_pos	max;
+	t_ray	ray;
+	t_dpos	offset;
+	t_dpos	inter_h;
+	t_dpos	inter_v;
+	t_color	col;
+	t_dpos	line;
+	double	cos_angle;
+	double	dist_t;
 }				t_dda;
 
 /*
@@ -174,7 +193,7 @@ void			global_img(t_game *game);
 */
 void			global_parse(char *filename, t_game *game);
 void			parse_data(char *line, t_game *game, int *data_parsed);
-void			parse_map(t_game *game, char *buffer);
+int				parse_map(t_game *game, char *buffer);
 
 /*
 **	Parse utils
@@ -203,23 +222,36 @@ void			free_split(char **words);
 */
 void			player(t_game *game, t_pos pos, int size, t_color c);
 void			move_player(t_game *game, t_pos pos);
+void			dda_horizontal(t_game *game, t_dda *dda);
+void			dda_vertical(t_game *game, t_dda *dda);
+void			find_intersection(t_dda *dda);
+
+/*
+**	Raycast
+*/
 void			raycaster(t_game *game);
 
 /*
 **	Draw
 */
 void			draw_map(t_game *game);
-void			draw_bg(t_game *game, t_color c);
-void			draw_player(t_game *game);
+void			draw_bg(t_game *game, t_color c, t_color f);
+// void			draw_player(t_game *game);
 void			draw_line(t_game *game, t_pos a, t_pos b, t_color c);
-
+void			draw_columns(t_game *game, t_dda *dda);
 /*
-**	Key player
+**	Move player
 */
 int				forward(t_game *game);
 int				backward(t_game *game);
 int				left(t_game *game);
 int				right(t_game *game);
+
+/*
+**	Rotate player
+*/
+int				rotate_left(t_game *game);
+int				rotate_right(t_game *game);
 
 /*
 **	Put texture
@@ -232,12 +264,12 @@ void			put_square(t_game *game, t_pos pos, int size, t_color c);
 */
 int				check_player(t_game *game);
 int				find_zeros(t_game *game);
-int				find_zeros(t_game *game);
 int				check_closed_map(t_game *game);
 
 /*
-** Check close map
+** Cardinal check
 */
+void			find_max(t_game *game, int *max_x, int *max_y);
 int				check_horizontaly_begin(t_game *game);
 int				check_horizontaly_end(t_game *game);
 int				check_verticaly_begin(t_game *game);
@@ -248,5 +280,21 @@ int				check_verticaly_end(t_game *game);
 */
 int				set_error(t_game *game, enum e_err error);
 void			ft_error(t_game *game);
+
+/*
+**	Utils
+*/
+double			dist(t_game *game, t_dpos inter);
+
+
+void	init_player(t_game *game);
+int		ft_abs(int x);
+void	free_game(t_game *game);
+
+
+/*
+**	Textures
+*/
+void	init_textures(t_game *game);
 
 #endif

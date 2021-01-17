@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/19 18:03:14 by agautier          #+#    #+#             */
-/*   Updated: 2020/11/11 13:48:52 by agautier         ###   ########.fr       */
+/*   Updated: 2020/12/20 19:49:37 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static int	fill_tab(char ***tab, int *words_len, char *str, char *charset)
 	i_str = 0;
 	while (d1 < ft_word_count(str, charset) && str[i_str])
 	{
-		if (!((*tab)[d1] = malloc((words_len[d1] + 1) * sizeof(char))))
+		if (!((*tab)[d1] = malloc((words_len[d1] + 2) * sizeof(char))))
 		{
 			while (d1 >= 0)
 				ft_free(tab[d1--]);

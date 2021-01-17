@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/19 20:18:26 by agautier          #+#    #+#             */
-/*   Updated: 2020/12/19 20:18:27 by agautier         ###   ########.fr       */
+/*   Created: 2020/12/03 19:36:54 by mamaquig          #+#    #+#             */
+/*   Updated: 2020/12/20 19:02:11 by mamaquig         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,12 @@ char	*fill_buffer(char *line)
 		return (buff);
 	tmp = buff;
 	buff = ft_strjoin(tmp, line);
-	free(tmp);
+	ft_free(tmp);
 	tmp = buff;
 	if (!ft_strlen(line))
 		buff = ft_strjoin(tmp, " \n");
 	else
 		buff = ft_strjoin(tmp, "\n");
-	free(tmp);
+	ft_free(tmp);
 	return (buff);
 }

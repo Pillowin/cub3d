@@ -1,10 +1,10 @@
 R	1000	500
-NO	./texture/eagle.xpm
+S	./texture/path_to_the_spri
 SO	./texture/wolftextures.xpm
 WE	./texture/wolftextures.xpm
 EA	./texture/wolftextures.xpm
 
-S	./texture/path_to_the_sprite_texture
+NO	./texture/eagle.xpm
 F	220,100,0
 C	225,30,0
 
