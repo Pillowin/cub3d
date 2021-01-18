@@ -1,9 +1,9 @@
 R   750 750
-NO  ./texture/eagle.xpm
-SO  ./texture/rock.xpm
-WE  ./texture/blue_brick.xpm
-EA  ./texture/moss.xpm
-S   ./texture/wood.xpm
+NO  ./texture/brick.xpm
+SO  ./texture/brick.xpm
+WE  ./texture/brick.xpm
+EA  ./texture/brick.xpm
+S   ./texture/brick.xpm
 F   20,148,20
 C   119,181,254
 

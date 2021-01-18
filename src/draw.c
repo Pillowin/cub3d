@@ -12,17 +12,19 @@
 
 #include "cub3d.h"
 
-t_color	get_col_from_tex(t_game *game)
+void	get_col_from_tex(t_game *game, t_dda *dda, int y)
 {
-	// Savoir si c'est une intersection horizontale ou verticale
-	// position du ray en x et y
-	(void)game;
+	t_pos tex;
+	unsigned int color;
 
-	// OBJECTIF: determiner le pixel interessant dans la texture => tex_x et tex_y
-	return (
-		((t_color){255, 255, 255})
-		// Le rgb correspondant au pixel trouve en fonction de la position du rayon
-	);
+	// TODO: changer la texture en fonction de la direction
+	if (dda->dist_v < dda->dist_h)
+		tex.x = fmod(dda->ray.y/64, 1) * game->north_data.res.x;
+	else
+		tex.x = fmod(dda->ray.x/64, 1) * game->north_data.res.x;
+	tex.y = (y + (dda->line.y)/2.0 - game->res.y/2.0) * (game->north_data.res.y / (dda->line.y));
+	color = *((unsigned int*)game->north_data.data_addr + (tex.y * game->north_data.res.x + tex.x));
+	dda->col = (t_color){(color & 0xFF0000) >> 16, (color & 0x00FF00) >> 8, color & 0x0000FF};
 }
 
 void	draw_columns(t_game *game, t_dda *dda)
@@ -38,7 +40,7 @@ void	draw_columns(t_game *game, t_dda *dda)
 	}
 	while (y < dda->line.x + dda->line.y)
 	{
-		dda->col = get_col_from_tex(game);
+		get_col_from_tex(game, dda, y);
 		put_pixel(game, dda->nb_ray, y, dda->col);
 		y++;
 	}

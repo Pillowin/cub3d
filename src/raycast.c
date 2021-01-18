@@ -31,6 +31,7 @@ void	raycast(t_game *game, t_dda *dda)
 	if (dda->line.y > game->res.y)
 		dda->line.y = game->res.y;
 	dda->line.x = game->res.y / 2 - dda->line.y / 2;
+	// wall_height = 64/dist_ray * dis 
 }
 
 void	raycaster(t_game *game)
