@@ -19,7 +19,7 @@ int	rotate_left(t_game *game)
 		game->player.angle += M_PI * 2;
 	game->player.delta.x = cos(game->player.angle) * SPEED;
 	game->player.delta.y = sin(game->player.angle) * SPEED;
-	move_player(game, game->player.pos);
+	// move_player(game, game->player.pos);
 	return (1);
 }
 
@@ -30,6 +30,6 @@ int	rotate_right(t_game *game)
 		game->player.angle -= M_PI * 2;
 	game->player.delta.x = cos(game->player.angle) * SPEED;
 	game->player.delta.y = sin(game->player.angle) * SPEED;
-	move_player(game, game->player.pos);
+	// move_player(game, game->player.pos);
 	return (1);
 }

@@ -12,9 +12,21 @@
 
 #include "cub3d.h"
 
-double	dist(t_game *game, t_dpos inter)
+int		check_tex_type(char *words)
 {
-	return (sqrt((inter.x - game->player.pos.x) * (inter.x - game->player.pos.x) + (inter.y - game->player.pos.y) * (inter.y - game->player.pos.y)));
+	char *texture_type;
+	char *texture;
+
+	texture_type = ".xpm";
+	texture = *(&words) + (ft_strlen(words) - 4);
+	if (ft_strncmp(texture, texture_type, 4))
+		return (1);
+	return (0);
+}
+
+double	dist(t_game *game, t_dda *dda, t_dpos inter)
+{
+	return (cos((dda->ray.a)) * (inter.x - game->player.pos.x) + sin((dda->ray.a)) * (inter.y - game->player.pos.y));
 }
 
 int		ft_abs(int x)

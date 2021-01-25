@@ -214,3 +214,24 @@
 // 		dda.nb_ray++;
 // 	}
 // }
+
+// void		put_square(t_game *game, t_pos pos, int size, t_color c)
+// {
+// 	int y;
+// 	int x;
+
+// 	y = 0;
+// 	while (y < size)
+// 	{
+// 		x = 0;
+// 		while (x < size)
+// 		{
+// 			put_pixel(game, pos.x + x, pos.y + y, c);
+// 			x++;
+// 		}
+// 		y++;
+// 	}
+// }
+
+		// printf("r = %d\ng = %d\nb = %d\n", dda->col.r, dda->col.g, dda->col.b);
+	// return (sqrt((inter.x - game->player.pos.x) * (inter.x - game->player.pos.x) + (inter.y - game->player.pos.y) * (inter.y - game->player.pos.y)));

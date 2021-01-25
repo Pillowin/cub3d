@@ -21,22 +21,24 @@ void	raycast(t_game *game, t_dda *dda)
 	dda_horizontal(game, dda);
 	dda_vertical(game, dda);
 	find_intersection(dda);
+	game->dists[dda->nb_ray] = dda->dist_t;
 	dda->cos_angle = game->player.angle - dda->ray.a;
 	if (dda->cos_angle < 0)
 		dda->cos_angle += 2 * M_PI;
 	if (dda->cos_angle > 2 * M_PI)
 		dda->cos_angle -= 2 * M_PI;
 	dda->dist_t = dda->dist_t * cos(dda->cos_angle);
+	// game->dists[dda->nb_ray] = dda->dist_t;
+
 	dda->line.y = (64 * game->res.y) / dda->dist_t;
-	if (dda->line.y > game->res.y)
-		dda->line.y = game->res.y;
 	dda->line.x = game->res.y / 2 - dda->line.y / 2;
-	// wall_height = 64/dist_ray * dis 
+	if (dda->line.x < 0)
+		dda->line.x = 0;
 }
 
 void	raycaster(t_game *game)
 {
-	t_dda	dda;
+	t_dda	dda;	// TODO: mettre ailleur pour pas recreer a chaque fois pour rien
 
 	find_max(game, &(dda.max.x), &(dda.max.y));
 	dda.ray.a = game->player.angle - FOV / 2 * DEG;
@@ -50,4 +52,5 @@ void	raycaster(t_game *game)
 			dda.ray.a -= 2 * M_PI;
 		dda.nb_ray++;
 	}
+	game->dda = dda;
 }

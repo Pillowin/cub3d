@@ -6,7 +6,7 @@
         "request": "launch",
         "program": "${workspaceFolder}/Cub3D",
         "args": [
-            "cub/valid_map/example.cub"
+            "cub/valid_map/video.cub"
         ]
     }
     ]

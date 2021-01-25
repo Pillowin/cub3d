@@ -14,6 +14,7 @@
 
 int	key_press(int keycode, t_game *game)
 {
+	// printf("keycode = %d\n", keycode);
 	if (keycode == Z_KEY)
 		game->player.key.z = 1;
 	else if (keycode == S_KEY)
@@ -50,20 +51,12 @@ int	key_release(int keycode, t_game *game)
 
 int	loop_hook(t_game *game)
 {
-
 	int	i;
 	int	(*const move[6])(t_game *) = {forward, left, backward, right, rotate_left, rotate_right};
 	void *ptr;
 
-	// printf("addr 0 = %p\n", &(game->player.key));
-	// printf("addr 1 = %p\n", &(game->player.key.z));
-	// printf("addr 2 = %p\n", &(game->player.key.q));
-	// printf("addr 3 = %p\n", &(game->player.key.s));
-	// printf("addr 4 = %p\n", &(game->player.key.d));
-	// printf("sizeof int = %ld\n", sizeof(int));
 	i = 0;
 	ptr = &(game->player.key);
-	// printf("val 1 = %d\n", game->player.key.z);
 	while (i < 6)
 	{
 		if (*(int *)ptr)
@@ -71,6 +64,9 @@ int	loop_hook(t_game *game)
 		ptr += sizeof(int);
 		i++;
 	}
+	// TODO: 
+	if (game->player.key.z || game->player.key.s || game->player.key.q || game->player.key.d || game->player.key.arrow_left || game->player.key.arrow_right)
+		move_player(game, game->player.pos);
 	return (1);
 }
 

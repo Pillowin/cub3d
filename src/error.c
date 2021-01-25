@@ -12,10 +12,11 @@
 
 #include "cub3d.h"
 
-const char *g_err[3] = {
+const char *g_err[4] = {
 	"La description de map ne respecte pas les règles de carte.\n",
 	"Les données d'affichages ne sont pas conformes.\n",
-	"Les textures ne sont pas conformes.\n"
+	"Les textures ne sont pas conformes.\n",
+	"Une allocation de mémoire à échoué.\n"
 };
 
 int		set_error(t_game *game, enum e_err error)

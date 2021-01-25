@@ -49,7 +49,6 @@ void		global_parse(char *filename, t_game *game)
 		ft_free(buffer);
 		ft_error(game);
 	}
-	// printf("buffer =\n%s\n", buffer);	// TODO: Remove
 	ft_free(buffer);
 	close(fd);
 }

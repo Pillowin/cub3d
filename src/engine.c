@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/28 19:39:13 by agautier          #+#    #+#             */
-/*   Updated: 2021/01/08 15:48:20 by agautier         ###   ########.fr       */
+/*   Updated: 2021/01/20 161:44 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	dda_horizontal(t_game *game, t_dda *dda)
 	dda->dist_h = 1000000;
 	dda->limit = 0;
 	dda_h_direction(game, dda);
-	while (dda->limit < dda->max.x)
+	while (dda->limit < dda->max.y)
 	{
 		dda->map_pos.x = (int)dda->ray.x >> 6;
 		dda->map_pos.y = (int)dda->ray.y >> 6;
@@ -57,8 +57,8 @@ void	dda_horizontal(t_game *game, t_dda *dda)
 		{
 			dda->inter_h.x = dda->ray.x;
 			dda->inter_h.y = dda->ray.y;
-			dda->dist_h = dist(game, dda->inter_h);
-			dda->limit = dda->max.x;
+			dda->dist_h = dist(game, dda, dda->inter_h);
+			dda->limit = dda->max.y;
 		}
 		else
 		{
@@ -103,7 +103,7 @@ void	dda_vertical(t_game *game, t_dda *dda)
 	dda->dist_v = 1000000;
 	dda->limit = 0;
 	dda_v_direction(game, dda);
-	while (dda->limit < dda->max.y)
+	while (dda->limit < dda->max.x)
 	{
 		dda->map_pos.x = (int)dda->ray.x >> 6;
 		dda->map_pos.y = (int)dda->ray.y >> 6;
@@ -114,8 +114,8 @@ void	dda_vertical(t_game *game, t_dda *dda)
 		{
 			dda->inter_v.x = dda->ray.x;
 			dda->inter_v.y = dda->ray.y;
-			dda->dist_v = dist(game, dda->inter_v);
-			dda->limit = dda->max.y;
+			dda->dist_v = dist(game, dda, dda->inter_v);
+			dda->limit = dda->max.x;
 		}
 		else
 		{

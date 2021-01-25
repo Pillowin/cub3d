@@ -31,26 +31,19 @@ int			fill_texture(t_game *game, char **words, int index)
 		return (0);
 	*(&game->north + (index - 1)) = ft_strdup(words[1]);
 	fd = open(words[1], O_RDONLY);
-	if (fd == -1)
+	if (fd == -1 || check_tex_type(words[1]))
 	{
 		set_error(game, ERR_TEXTURE);
 		ft_error(game);
 	}
 	close(fd);
-	tex_data.bpp = -1;
-	tex_data.size_line = -1;
-	tex_data.endian = -1;
-	tex_data.res.x = 0;
-	tex_data.res.y = 0;
-	tex_data.id = mlx_xpm_file_to_image(game->mlx.id, words[1], &tex_data.res.x, &tex_data.res.y);
-	tex_data.data_addr = mlx_get_data_addr(tex_data.id, &tex_data.bpp, &tex_data.size_line, &tex_data.endian);
+	init_textures(game, &tex_data, words[1]);
+	if (tex_data.res.x != 64 || tex_data.res.y != 64)
+	{
+		set_error(game, ERR_TEXTURE);
+		ft_error(game);
+	}
 	*(&game->north_data + (index - 1)) = tex_data;
-
-	// printf("res x = %d\n", tex_data.res.x);
-	// printf("res y = %d\n", tex_data.res.y);
-	// printf("size_line = %d\n", tex_data.size_line);
-	// printf("bpp = %d\n", tex_data.bpp);
-	// printf("endian = %d\n\n", tex_data.endian);
 	return (1);
 }
 

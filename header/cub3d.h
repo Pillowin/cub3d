@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/01 21:10:24 by agautier          #+#    #+#             */
-/*   Updated: 2021/01/17 14:59:18 by agautier         ###   ########.fr       */
+/*   Created: 2020/11/01 21:10:24 by mamaquig          #+#    #+#             */
+/*   Updated: 2021/01/22 00:17:40 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # define FOV			60
 # define SPEED			5
 # define ROTATION_SPEED	3
+# define PLAYER_SIZE	3
 
 # define ESC_KEY			65307
 # define Z_KEY				119
@@ -46,7 +47,8 @@
 enum	e_err {
 	ERR_MAP,
 	ERR_DATA,
-	ERR_TEXTURE
+	ERR_TEXTURE,
+	ERR_MALLOC
 };
 
 typedef struct	s_pos
@@ -111,45 +113,19 @@ typedef struct	s_player
 	t_color	color;
 }				t_player;
 
-typedef struct	s_game
-{
-	t_mlx		mlx;
-	char		**map;
-	char		*north;
-	char		*south;
-	char		*west;
-	char		*east;
-	char		*sprite;
-	t_img		north_data;
-	t_img		south_data;
-	t_img		west_data;
-	t_img		east_data;
-	t_img		sprite_data;
-	t_res		res;
-	t_color		floor;
-	t_color		ceiling;
-	t_player	player;
-	// t_color		bg_color;
-	enum e_err	err;
-}				t_game;
-
-typedef struct	s_draw_line
-{
-	t_pos	a;
-	t_pos	b;
-	t_color	c;
-	t_pos	d;
-	t_pos	s;
-	int		err;
-	int		e2;
-}				t_draw_line;
-
 typedef struct	s_ray
 {
 	double	x;
 	double	y;
 	double	a;
 }				t_ray;
+
+typedef struct	s_sprite
+{
+	t_pos	pos;
+	double	dist;
+	int		visible;
+}				t_sprite;
 
 typedef struct	s_dda
 {
@@ -168,6 +144,45 @@ typedef struct	s_dda
 	double	cos_angle;
 	double	dist_t;
 }				t_dda;
+
+typedef struct	s_game
+{
+	t_mlx		mlx;
+	char		**map;
+	char		*north;
+	char		*south;
+	char		*west;
+	char		*east;
+	char		*sprite;
+	t_img		north_data;
+	t_img		south_data;
+	t_img		west_data;
+	t_img		east_data;
+	t_img		sprite_data;
+	t_res		res;
+	t_color		floor;
+	t_color		ceiling;
+	t_player	player;
+	t_dda		dda;
+	double		*dists;
+	t_sprite	*sprites;
+	// t_img		bmp;
+	// t_color		bg_color;
+	enum e_err	err;
+}				t_game;
+
+// typedef struct	s_draw_line
+// {
+// 	t_pos	a;
+// 	t_pos	b;
+// 	t_color	c;
+// 	t_pos	d;
+// 	t_pos	s;
+// 	int		err;
+// 	int		e2;
+// }				t_draw_line;
+
+
 
 /*
 **	Window
@@ -237,7 +252,7 @@ void			raycaster(t_game *game);
 void			draw_map(t_game *game);
 void			draw_bg(t_game *game, t_color c, t_color f);
 // void			draw_player(t_game *game);
-void			draw_line(t_game *game, t_pos a, t_pos b, t_color c);
+// void			draw_line(t_game *game, t_pos a, t_pos b, t_color c);
 void			draw_columns(t_game *game, t_dda *dda);
 /*
 **	Move player
@@ -278,23 +293,42 @@ int				check_verticaly_end(t_game *game);
 /*
 ** Error
 */
+int				check_tex_type(char *words);
 int				set_error(t_game *game, enum e_err error);
 void			ft_error(t_game *game);
 
 /*
 **	Utils
 */
-double			dist(t_game *game, t_dpos inter);
+double			dist(t_game *game, t_dda *dda, t_dpos inter);
 
 
 void	init_player(t_game *game);
 int		ft_abs(int x);
 void	free_game(t_game *game);
 
+/*
+**	Minimap
+*/
+void    disp_square(int x, int y, int color, t_game *game, int width);
+void    ft_disp_minimap(t_game *game);
+void    disp_square(int x, int y, int color, t_game *game, int width);
+void    draw_line(int x0, int y0, int x1, int y1, int color, t_game *game);
+
+
+
+/*
+**	Sprite
+*/
+
+void	find_sprites(t_game *game);
+void	calc_dist_sprite(t_game *game);
+void	fill_visibility(t_game *game);
+void	draw_sprite(t_game *game);
 
 /*
 **	Textures
 */
-void	init_textures(t_game *game);
+void	init_textures(t_game *game, t_img *tex_data, char *tex_name);
 
 #endif

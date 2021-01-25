@@ -14,42 +14,31 @@
 
 int		forward(t_game *game)
 {
-	game->player.pos.x += game->player.delta.x;
-	game->player.pos.y += game->player.delta.y;
-	move_player(game, game->player.pos);
+	if (game->map[game->player.pos.y / 64][(game->player.pos.x + game->player.delta.x * PLAYER_SIZE) / 64] != '1' && game->map[game->player.pos.y / 64][(game->player.pos.x + game->player.delta.x * PLAYER_SIZE) / 64] != '2')
+		game->player.pos.x += game->player.delta.x;
+	if (game->map[(game->player.pos.y + game->player.delta.y * PLAYER_SIZE) / 64][game->player.pos.x / 64] != '1' && game->map[(game->player.pos.y + game->player.delta.y * PLAYER_SIZE) / 64][game->player.pos.x / 64] != '2')
+		game->player.pos.y += game->player.delta.y;
+	// move_player(game, game->player.pos);
 	return (0);
 }
 
 int		backward(t_game *game)
 {
-	game->player.pos.x -= game->player.delta.x;
-	game->player.pos.y -= game->player.delta.y;
-	move_player(game, game->player.pos);
+	if (game->map[game->player.pos.y / 64][(game->player.pos.x - game->player.delta.x * PLAYER_SIZE) / 64] != '1' && game->map[game->player.pos.y / 64][(game->player.pos.x - game->player.delta.x * PLAYER_SIZE) / 64] != '2')
+		game->player.pos.x -= game->player.delta.x;
+	if (game->map[(game->player.pos.y - game->player.delta.y * PLAYER_SIZE) / 64][game->player.pos.x / 64] != '1' && game->map[(game->player.pos.y - game->player.delta.y * PLAYER_SIZE) / 64][game->player.pos.x / 64] != '2')
+		game->player.pos.y -= game->player.delta.y;
+	// move_player(game, game->player.pos);
 	return (0);
 }
 
 int		left(t_game *game)
 {
-	// TODO: DO
-	// printf("%d %d\n", game->player.delta.x, game->player.delta.y);
-	// printf("%d %d %f\n", game->player.pos.x, game->player.pos.y, game->player.angle * RAD);
 	game->player.delta.x = cos(game->player.angle - M_PI_2) * SPEED;
 	game->player.delta.y = sin(game->player.angle - M_PI_2) * SPEED;
 	forward(game);
 	game->player.delta.x = cos(game->player.angle) * SPEED;
 	game->player.delta.y = sin(game->player.angle) * SPEED;
-	// 0 <= angle <= 2pi
-	// if (angle * 180 / M_PI)
-	// {
-	// 	game->player.pos.x -= game->player.delta.y;
-	// 	game->player.pos.y -= game->player.delta.x;
-	// }
-	// else if (angle  * 180 / M_PI)
-	// {
-	// 	game->player.pos.x -= game->player.delta.y;
-	// 	game->player.pos.y -= game->player.delta.x;
-	// }
-	// move_player(game, game->player.pos);
 	return (0);
 }
 
