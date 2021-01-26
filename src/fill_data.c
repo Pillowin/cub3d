@@ -19,6 +19,8 @@ int			fill_resolution(t_game *game, char **words, int index)
 		return (0);
 	game->res.x = ft_atoi(words[1]);
 	game->res.y = ft_atoi(words[2]);
+	if (game->res.y <= 0 || game->res.x <= 0)
+		return (0);
 	return (1);
 }
 

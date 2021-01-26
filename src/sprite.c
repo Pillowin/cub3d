@@ -101,8 +101,8 @@ void	calc_dist_sprite(t_game *game)
 	{
 		game->sprites[i].dist = 
 			sqrt(
-				(game->player.pos.x - game->sprites[i].pos.x) * (game->player.pos.x - game->sprites[i].pos.x) + 
-				(game->player.pos.y - game->sprites[i].pos.y) * (game->player.pos.y - game->sprites[i].pos.y)
+				pow((game->player.pos.x - game->sprites[i].pos.x), 2) + 
+				pow((game->player.pos.y - game->sprites[i].pos.y), 2)
 			);
 		// printf("sprite %d dist = %f\n", i, game->sprites[i].dist);
 		i++;
@@ -169,32 +169,42 @@ void	draw_sprite(t_game *game)
 	{
 		if (game->sprites[sprite_curr].visible)
 		{
-			side = 64 / game->sprites[sprite_curr].dist * (game->res.x / 2) / tan(FOV / 2 * DEG);
-	// dda->line.y = (64 * game->res.y) / dda->dist_t;
-	// dda->line.x = game->res.y / 2 - dda->line.y / 2;
-			// y_begin = game->res.y / 2 - (int)side / 2;
-			y_begin = game->res.y - (game->res.y / 2 - ((64 * game->res.y) / game->sprites[sprite_curr].dist)) - side - side / 2;
+			side = 64 * game->res.y / game->sprites[sprite_curr].dist;
 			col_width = side / 64.0;
-			x_begin = 
-				(game->res.x / 2) / tan(FOV / 2 * DEG) * 
+
+			y_begin = game->res.y - (game->res.y / 2 - ((64 * game->res.y) / game->sprites[sprite_curr].dist)) - side - side / 2;
+			// x_begin = (
+			// 	(double)(game->res.x/2.0) + tan(
+			// 		atan2(
+			// 			game->sprites[sprite_curr].pos.y - game->player.pos.y,
+			// 			game->sprites[sprite_curr].pos.x - game->player.pos.x
+			// 		) - game->player.angle
+			// 	) * (double)(game->res.x / 2.0) / tan(FOV / 2.0 * DEG) - side/2.0
+			// );
+
+			x_begin = (
+				(double)(game->res.x/2.0) + 
 				tan(
 					atan2(
-						game->player.pos.y - game->sprites[sprite_curr].pos.y,
-						game->player.pos.x - game->sprites[sprite_curr].pos.x
-					) - game->player.angle
-				) + (game->res.x / 2.0) - (side / 2);
+						game->sprites[sprite_curr].pos.y - game->player.pos.y,
+						game->sprites[sprite_curr].pos.x - game->player.pos.x
+					)
+					- game->player.angle
+				) * 
+				(double)(game->res.x / 2.0) / tan(FOV / 2.0 * DEG) - side/2.0
+			);
+
 			x_curr = x_begin;
 			while (x_curr < x_begin + (int)side)
 			{
-				if (x_curr >= 0 &&
-					x_curr < game->res.x &&
+				if (x_curr >= 0 && x_curr < game->res.x &&
 					game->sprites[sprite_curr].dist < game->dists[x_curr])
 				{
 					y_curr = y_begin;
 					while (y_curr < y_begin + side)
 					{
 						color = *((unsigned int*)(game->sprite_data.data_addr) + ((int)((y_curr - y_begin) / col_width) * game->sprite_data.res.x) + (int)((x_curr - x_begin) / col_width));
-						if (color && x_curr >= 0 && x_curr < game->res.x && y_curr >= 0 && y_curr < game->res.y)
+						if (color && y_curr >= 0 && y_curr < game->res.y)
 						{
 							col = (t_color){(color & 0xFF0000) >> 16, (color & 0x00FF00) >> 8, color & 0x0000FF};
 							put_pixel(game, x_curr, y_curr, col);

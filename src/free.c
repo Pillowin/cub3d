@@ -34,6 +34,8 @@ void	free_split(char **words)
 	ft_free(words);
 }
 
+
+// TODO: free sprites
 void	free_game(t_game *game)
 {
 	if (game->mlx.id)

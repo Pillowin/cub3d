@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 21:10:24 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/01/22 00:17:40 by agautier         ###   ########.fr       */
+/*   Updated: 2021/01/26 00:59:25 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,21 @@
 # define ARROW_LEFT_KEY		65361
 # define ARROW_RIGHT_KEY	65363
 
+# define TITLE		"Cub3D"
+# define TITLE_BMP	"Cub3D.bmp"
+
+# define BMP_FILE_HEADER_SIZE 14
+# define BMP_INFO_HEADER_SIZE 40
+
 enum	e_err {
 	ERR_MAP,
 	ERR_DATA,
 	ERR_TEXTURE,
-	ERR_MALLOC
+	ERR_MALLOC,
+	ERR_ARG,
+	ERR_BMP,
+	ERR_BMP_HEADER,
+	ERR_BMP_IMG
 };
 
 typedef struct	s_pos
@@ -330,5 +340,7 @@ void	draw_sprite(t_game *game);
 **	Textures
 */
 void	init_textures(t_game *game, t_img *tex_data, char *tex_name);
+
+int			ft_create_bmp(t_game *game);
 
 #endif

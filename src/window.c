@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   window.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/04 17:16:40 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/01/18 22:00:42 by mamaquig         ###   ########.fr       */
+/*   Updated: 2021/01/25 3:313:31:05 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,8 @@ void	global_win(t_game *game)
 		game->res.x = x;
 	if (game->res.y > y)
 		game->res.y = y;
-	if (game->res.y <= 0 || game->res.x <= 0)
-	{
-		set_error(game, ERR_DATA);
-		ft_error(game);
-	}
-	game->mlx.win = mlx_new_window(game->mlx.id, game->res.x, game->res.y, "Cub3D");
+	game->mlx.win = mlx_new_window(game->mlx.id, game->res.x, game->res.y, TITLE);
+	mlx_put_image_to_window(game->mlx.id, game->mlx.win, game->mlx.img.id, 0, 0);
 }
 
 int		close_win(t_game *game)

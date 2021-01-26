@@ -37,7 +37,7 @@ void	move_player(t_game *game, t_pos pos)
 	draw_sprite(game);
 
 	// MINIMAP
-	ft_disp_minimap(game);
+	// ft_disp_minimap(game);
 	
 	mlx_put_image_to_window(game->mlx.id, game->mlx.win, game->mlx.img.id,
 			0, 0);
