@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/15 18:40:04 by mamaquig          #+#    #+#             */
-/*   Updated: 2020/12/20 19:1:07 by mamaquig         ###   ########.fr       */
+/*   Created: 2021/01/26 13:31:00 by agautier          #+#    #+#             */
+/*   Updated: 2021/01/26 13:31:10 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void		parse_data(char *line, t_game *game, int *data_parsed)
 	}
 }
 
-int		parse_map(t_game *game, char *buffer)
+int			parse_map(t_game *game, char *buffer)
 {
 	int	index;
 

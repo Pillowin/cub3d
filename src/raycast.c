@@ -3,54 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/28 19:40:13 by agautier          #+#    #+#             */
-/*   Updated: 2021/001/06 17:444:49 by mamaquig         ###   ########.fr       */
+/*   Created: 2021/01/26 14:37:48 by agautier          #+#    #+#             */
+/*   Updated: 2021/01/26 14:37:48 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	raycast(t_game *game, t_dda *dda)
+void	raycast(t_game *game)
 {
-	if (dda->ray.a < 0)
-		dda->ray.a += 2 * M_PI;
-	if (dda->ray.a > 2 * M_PI)
-		dda->ray.a -= 2 * M_PI;
-	dda_horizontal(game, dda);
-	dda_vertical(game, dda);
-	find_intersection(dda);
-	game->dists[dda->nb_ray] = dda->dist_t;
-	dda->cos_angle = game->player.angle - dda->ray.a;
-	if (dda->cos_angle < 0)
-		dda->cos_angle += 2 * M_PI;
-	if (dda->cos_angle > 2 * M_PI)
-		dda->cos_angle -= 2 * M_PI;
-	dda->dist_t = dda->dist_t * cos(dda->cos_angle);
-	// game->dists[dda->nb_ray] = dda->dist_t;
-
-	dda->line.y = (64 * game->res.y) / dda->dist_t;
-	dda->line.x = game->res.y / 2 - dda->line.y / 2;
-	if (dda->line.x < 0)
-		dda->line.x = 0;
+	if (game->dda.ray.a < 0)
+		game->dda.ray.a += 2 * M_PI;
+	if (game->dda.ray.a > 2 * M_PI)
+		game->dda.ray.a -= 2 * M_PI;
+	dda_horizontal(game, &game->dda);
+	dda_vertical(game, &game->dda);
+	find_intersection(game);
+	game->dists[game->dda.nb_ray] = game->dda.dist_t;
+	game->dda.cos_angle = game->player.angle - game->dda.ray.a;
+	if (game->dda.cos_angle < 0)
+		game->dda.cos_angle += 2 * M_PI;
+	if (game->dda.cos_angle > 2 * M_PI)
+		game->dda.cos_angle -= 2 * M_PI;
+	game->dda.dist_t = game->dda.dist_t * cos(game->dda.cos_angle);
+	game->dda.line.y = (64 * game->res.y) / game->dda.dist_t;
+	game->dda.line.x = game->res.y / 2 - game->dda.line.y / 2;
+	if (game->dda.line.x < 0)
+		game->dda.line.x = 0;
 }
 
 void	raycaster(t_game *game)
 {
-	t_dda	dda;	// TODO: mettre ailleur pour pas recreer a chaque fois pour rien
-
-	find_max(game, &(dda.max.x), &(dda.max.y));
-	dda.ray.a = game->player.angle - FOV / 2 * DEG;
-	dda.nb_ray = 0;
-	while (dda.nb_ray < game->res.x)
+	game->dda.ray.a = game->player.angle - FOV / 2 * DEG;
+	game->dda.nb_ray = 0;
+	while (game->dda.nb_ray < game->res.x)
 	{
-		raycast(game, &dda);
-		draw_columns(game, &dda);
-		dda.ray.a += FOV * DEG / game->res.x;
-		if (dda.ray.a > 2 * M_PI)
-			dda.ray.a -= 2 * M_PI;
-		dda.nb_ray++;
+		raycast(game);
+		draw_columns(game);
+		game->dda.ray.a += FOV * DEG / game->res.x;
+		if (game->dda.ray.a > 2 * M_PI)
+			game->dda.ray.a -= 2 * M_PI;
+		game->dda.nb_ray++;
 	}
-	game->dda = dda;
 }

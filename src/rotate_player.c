@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/08 18:50:06 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/01/08 19:02:4 by agautier         ###   ########.fr       */
+/*   Created: 2021/01/26 14:38:10 by agautier          #+#    #+#             */
+/*   Updated: 2021/01/26 14:38:11 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	rotate_left(t_game *game)
 		game->player.angle += M_PI * 2;
 	game->player.delta.x = cos(game->player.angle) * SPEED;
 	game->player.delta.y = sin(game->player.angle) * SPEED;
-	// move_player(game, game->player.pos);
 	return (1);
 }
 
@@ -30,6 +29,5 @@ int	rotate_right(t_game *game)
 		game->player.angle -= M_PI * 2;
 	game->player.delta.x = cos(game->player.angle) * SPEED;
 	game->player.delta.y = sin(game->player.angle) * SPEED;
-	// move_player(game, game->player.pos);
 	return (1);
 }

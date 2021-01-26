@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/28 19:39:13 by agautier          #+#    #+#             */
-/*   Updated: 2021/01/20 161:44 by agautier         ###   ########.fr       */
+/*   Created: 2021/01/26 14:14:47 by agautier          #+#    #+#             */
+/*   Updated: 2021/01/26 14:15:04 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	dda_h_direction(t_game *game, t_dda *dda)
+static void	dda_h_direction(t_game *game, t_dda *dda)
 {
 	double	atan;
 
@@ -41,7 +41,7 @@ void	dda_h_direction(t_game *game, t_dda *dda)
 	}
 }
 
-void	dda_horizontal(t_game *game, t_dda *dda)
+void		dda_horizontal(t_game *game, t_dda *dda)
 {
 	dda->dist_h = 1000000;
 	dda->limit = 0;
@@ -57,7 +57,7 @@ void	dda_horizontal(t_game *game, t_dda *dda)
 		{
 			dda->inter_h.x = dda->ray.x;
 			dda->inter_h.y = dda->ray.y;
-			dda->dist_h = dist(game, dda, dda->inter_h);
+			dda->dist_h = dist(game, dda->inter_h);
 			dda->limit = dda->max.y;
 		}
 		else
@@ -69,7 +69,7 @@ void	dda_horizontal(t_game *game, t_dda *dda)
 	}
 }
 
-void	dda_v_direction(t_game *game, t_dda *dda)
+static void	dda_v_direction(t_game *game, t_dda *dda)
 {
 	double	ntan;
 
@@ -98,7 +98,7 @@ void	dda_v_direction(t_game *game, t_dda *dda)
 	}
 }
 
-void	dda_vertical(t_game *game, t_dda *dda)
+void		dda_vertical(t_game *game, t_dda *dda)
 {
 	dda->dist_v = 1000000;
 	dda->limit = 0;
@@ -114,7 +114,7 @@ void	dda_vertical(t_game *game, t_dda *dda)
 		{
 			dda->inter_v.x = dda->ray.x;
 			dda->inter_v.y = dda->ray.y;
-			dda->dist_v = dist(game, dda, dda->inter_v);
+			dda->dist_v = dist(game, dda->inter_v);
 			dda->limit = dda->max.x;
 		}
 		else
@@ -126,20 +126,18 @@ void	dda_vertical(t_game *game, t_dda *dda)
 	}
 }
 
-void	find_intersection(t_dda *dda)
+void		find_intersection(t_game *game)
 {
-	if (dda->dist_v < dda->dist_h)
+	if (game->dda.dist_v < game->dda.dist_h)
 	{
-		dda->ray.x = dda->inter_v.x;
-		dda->ray.y = dda->inter_v.y;
-		dda->col = (t_color){139, 108, 66};
-		dda->dist_t = dda->dist_v;
+		game->dda.ray.x = game->dda.inter_v.x;
+		game->dda.ray.y = game->dda.inter_v.y;
+		game->dda.dist_t = game->dda.dist_v;
 	}
-	if (dda->dist_h < dda->dist_v)
+	if (game->dda.dist_h < game->dda.dist_v)
 	{
-		dda->ray.x = dda->inter_h.x;
-		dda->ray.y = dda->inter_h.y;
-		dda->col = (t_color){91, 60, 17};
-		dda->dist_t = dda->dist_h;
+		game->dda.ray.x = game->dda.inter_h.x;
+		game->dda.ray.y = game->dda.inter_h.y;
+		game->dda.dist_t = game->dda.dist_h;
 	}
 }

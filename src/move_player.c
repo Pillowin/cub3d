@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/08 19:46:13 by agautier          #+#    #+#             */
-/*   Updated: 2021/01/08 19:4837 by agautier         ###   ########.fr       */
+/*   Created: 2021/01/26 14:28:24 by agautier          #+#    #+#             */
+/*   Updated: 2021/01/26 14:35:28 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,33 @@
 
 int		forward(t_game *game)
 {
-	if (game->map[game->player.pos.y / 64][(game->player.pos.x + game->player.delta.x * PLAYER_SIZE) / 64] != '1' && game->map[game->player.pos.y / 64][(game->player.pos.x + game->player.delta.x * PLAYER_SIZE) / 64] != '2')
+	t_pos	posx;
+	t_pos	posy;
+
+	posx.x = (game->player.pos.x + game->player.delta.x * PLAYER_SIZE) / 64;
+	posx.y = game->player.pos.y / 64;
+	posy.x = game->player.pos.x / 64;
+	posy.y = (game->player.pos.y + game->player.delta.y * PLAYER_SIZE) / 64;
+	if (game->map[posx.y][posx.x] != '1' && game->map[posx.y][posx.x] != '2')
 		game->player.pos.x += game->player.delta.x;
-	if (game->map[(game->player.pos.y + game->player.delta.y * PLAYER_SIZE) / 64][game->player.pos.x / 64] != '1' && game->map[(game->player.pos.y + game->player.delta.y * PLAYER_SIZE) / 64][game->player.pos.x / 64] != '2')
+	if (game->map[posy.y][posy.x] != '1' && game->map[posy.y][posy.x] != '2')
 		game->player.pos.y += game->player.delta.y;
-	// move_player(game, game->player.pos);
 	return (0);
 }
 
 int		backward(t_game *game)
 {
-	if (game->map[game->player.pos.y / 64][(game->player.pos.x - game->player.delta.x * PLAYER_SIZE) / 64] != '1' && game->map[game->player.pos.y / 64][(game->player.pos.x - game->player.delta.x * PLAYER_SIZE) / 64] != '2')
+	t_pos	posx;
+	t_pos	posy;
+
+	posx.x = (game->player.pos.x - game->player.delta.x * PLAYER_SIZE) / 64;
+	posx.y = game->player.pos.y / 64;
+	posy.x = game->player.pos.x / 64;
+	posy.y = (game->player.pos.y - game->player.delta.y * PLAYER_SIZE) / 64;
+	if (game->map[posx.y][posx.x] != '1' && game->map[posx.y][posx.x] != '2')
 		game->player.pos.x -= game->player.delta.x;
-	if (game->map[(game->player.pos.y - game->player.delta.y * PLAYER_SIZE) / 64][game->player.pos.x / 64] != '1' && game->map[(game->player.pos.y - game->player.delta.y * PLAYER_SIZE) / 64][game->player.pos.x / 64] != '2')
+	if (game->map[posy.y][posy.x] != '1' && game->map[posy.y][posy.x] != '2')
 		game->player.pos.y -= game->player.delta.y;
-	// move_player(game, game->player.pos);
 	return (0);
 }
 

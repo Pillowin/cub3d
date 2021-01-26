@@ -1,4 +1,4 @@
-R       1000    1
+R       1000    750
 NO      ./texture/blue_brick.xpm
 SO      ./texture/brick.xpm
 WE      ./texture/eagle.xpm

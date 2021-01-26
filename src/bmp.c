@@ -1,14 +1,14 @@
-// /* ************************************************************************** */
-// /*                                                                            */
-// /*                                                        :::      ::::::::   */
-// /*   bmp.c                                              :+:      :+:    :+:   */
-// /*                                                    +:+ +:+         +:+     */
-// /*   By: mamaquig <mamaquig@student.42.fr>          +#+  +:+       +#+        */
-// /*                                                +#+#+#+#+#+   +#+           */
-// /*   Created: 2020/06/11 18:16:29 by agautier          #+#    #+#             */
-// /*   Updated: 2021/01/25 23:33:16 by mamaquig         ###   ########.fr       */
-// /*                                                                            */
-// /* ************************************************************************** */
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bmp.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2021/01/26 13:33:37 by agautier          #+#    #+#             */
+/*   Updated: 2021/01/26 13:46:59 by agautier         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "cub3d.h"
 
@@ -81,8 +81,8 @@ static int	ft_bmp_image(t_game *game, int fd)
 	i = game->res.y;
 	while (i >= 0)
 	{
-		write(fd, game->mlx.img.data_addr + (i * game->res.x * game->mlx.img.bpp / 8),
-				game->mlx.img.size_line);
+		write(fd, game->mlx.img.data_addr +
+		(i * game->res.x * game->mlx.img.bpp / 8), game->mlx.img.size_line);
 		i--;
 	}
 	return (1);
@@ -108,5 +108,8 @@ int			ft_create_bmp(t_game *game)
 		safe = set_error(game, ERR_BMP);
 	if (!safe)
 		ft_error(game);
+	ft_putstr("\033[32mInfo\033[0m\nLe fichier ./");
+	ft_putstr(TITLE_BMP);
+	ft_putstr(" a été correctement enregistré.\n");
 	return (1);
 }

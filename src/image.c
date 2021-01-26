@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   image.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gguiteer <gguiteer@student.42.fr>          +#+  +:+       +#+        */
+/*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/04 17:16:58 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/01/11 1600::117 byagattierr         ###   ########.fr       */
+/*   Created: 2021/01/26 14:22:00 by agautier          #+#    #+#             */
+/*   Updated: 2021/01/26 17:09:49 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_img	init_img(t_game *game)
 void	global_img(t_game *game)
 {
 	game->mlx.img = init_img(game);
-	// draw_bg(game, game->ceiling, game->floor);
+	init_dda(game);
 	game->dists = (double *)malloc(sizeof(game->dists) * game->res.x);
 	if (!game->dists)
 	{
@@ -37,13 +37,8 @@ void	global_img(t_game *game)
 	}
 	init_player(game);
 	raycaster(game);
-
 	find_sprites(game);
 	calc_dist_sprite(game);
 	fill_visibility(game);
 	draw_sprite(game);
-
-	// MINIMAP
-	// ft_disp_minimap(game);
-
 }

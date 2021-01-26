@@ -1,0 +1,4 @@
+// TODO: changer les 64, les 8 et les >> 6 << 6 ? --> avec un define
+// TODO: gerer les sprites
+// TODO: revoir le parsing
+// TODO: adapter la vitesse en fonction de la resolution

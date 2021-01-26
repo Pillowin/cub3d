@@ -5,16 +5,15 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/04 17:00:00 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/01/08 17:333:11 by agautier         ###   ########.fr       */
+/*   Created: 2021/01/26 14:16:04 by agautier          #+#    #+#             */
+/*   Updated: 2021/01/26 14:18:50 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	key_press(int keycode, t_game *game)
+int		key_press(int keycode, t_game *game)
 {
-	// printf("keycode = %d\n", keycode);
 	if (keycode == Z_KEY)
 		game->player.key.z = 1;
 	else if (keycode == S_KEY)
@@ -32,7 +31,7 @@ int	key_press(int keycode, t_game *game)
 	return (1);
 }
 
-int	key_release(int keycode, t_game *game)
+int		key_release(int keycode, t_game *game)
 {
 	if (keycode == Z_KEY)
 		game->player.key.z = 0;
@@ -49,11 +48,12 @@ int	key_release(int keycode, t_game *game)
 	return (1);
 }
 
-int	loop_hook(t_game *game)
+int		loop_hook(t_game *game)
 {
-	int	i;
-	int	(*const move[6])(t_game *) = {forward, left, backward, right, rotate_left, rotate_right};
-	void *ptr;
+	int		i;
+	int		(*const move[6])(t_game *) = {forward, left, backward, right,
+			rotate_left, rotate_right};
+	void	*ptr;
 
 	i = 0;
 	ptr = &(game->player.key);
@@ -64,9 +64,13 @@ int	loop_hook(t_game *game)
 		ptr += sizeof(int);
 		i++;
 	}
-	// TODO: 
-	if (game->player.key.z || game->player.key.s || game->player.key.q || game->player.key.d || game->player.key.arrow_left || game->player.key.arrow_right)
-		move_player(game, game->player.pos);
+	if (game->player.key.z ||
+		game->player.key.s ||
+		game->player.key.q ||
+		game->player.key.d ||
+		game->player.key.arrow_left ||
+		game->player.key.arrow_right)
+		move_player(game);
 	return (1);
 }
 
@@ -76,14 +80,14 @@ void	global_event(t_game *game)
 			close_win, game);
 	mlx_hook(game->mlx.win, VISIBILITY_NOTIFY, VISIBILITY_CHANGE_MASK,
 			minimise_hook, game);
-
-	mlx_hook(game->mlx.win, KEY_PRESS, (1L<<0), key_press, game);
-	mlx_hook(game->mlx.win, KEY_RELEASE, (1L<<1), key_release, game);
+	mlx_hook(game->mlx.win, KEY_PRESS, (1L << 0), key_press, game);
+	mlx_hook(game->mlx.win, KEY_RELEASE, (1L << 1), key_release, game);
 	mlx_loop_hook(game->mlx.id, loop_hook, game);
 }
 
 int		minimise_hook(t_game *game)
 {
-	mlx_put_image_to_window(game->mlx.id, game->mlx.win, game->mlx.img.id, 0, 0);
+	mlx_put_image_to_window(game->mlx.id, game->mlx.win,
+			game->mlx.img.id, 0, 0);
 	return (0);
 }

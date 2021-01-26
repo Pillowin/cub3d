@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/01 21:10:24 by mamaquig          #+#    #+#             */
-/*   Updated: 2021/01/26 00:59:25 by agautier         ###   ########.fr       */
+/*   Updated: 2021/01/26 17:13:20 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,21 +176,23 @@ typedef struct	s_game
 	t_dda		dda;
 	double		*dists;
 	t_sprite	*sprites;
-	// t_img		bmp;
-	// t_color		bg_color;
+	int			nb_sprite;
 	enum e_err	err;
 }				t_game;
 
-// typedef struct	s_draw_line
-// {
-// 	t_pos	a;
-// 	t_pos	b;
-// 	t_color	c;
-// 	t_pos	d;
-// 	t_pos	s;
-// 	int		err;
-// 	int		e2;
-// }				t_draw_line;
+typedef struct	s_calc_sprite
+{
+	int		sprite_curr;
+	double	side;
+	int		y_begin;
+	int		y_curr;
+	int		x_begin;
+	int		x_curr;
+	double	col_width;
+	t_color col;
+	unsigned int color;
+}				t_calc_sprite;
+
 
 
 
@@ -239,17 +241,17 @@ int				fill_color(t_game *game, char **words, int index);
 /*
 **	Free
 */
-void			free_textures(t_game *game);
 void			free_split(char **words);
+void			free_game(t_game *game);
 
 /*
 **	Engine
 */
 void			player(t_game *game, t_pos pos, int size, t_color c);
-void			move_player(t_game *game, t_pos pos);
+void			move_player(t_game *game);
 void			dda_horizontal(t_game *game, t_dda *dda);
 void			dda_vertical(t_game *game, t_dda *dda);
-void			find_intersection(t_dda *dda);
+void			find_intersection(t_game *game);
 
 /*
 **	Raycast
@@ -263,7 +265,7 @@ void			draw_map(t_game *game);
 void			draw_bg(t_game *game, t_color c, t_color f);
 // void			draw_player(t_game *game);
 // void			draw_line(t_game *game, t_pos a, t_pos b, t_color c);
-void			draw_columns(t_game *game, t_dda *dda);
+void			draw_columns(t_game *game);
 /*
 **	Move player
 */
@@ -310,12 +312,13 @@ void			ft_error(t_game *game);
 /*
 **	Utils
 */
-double			dist(t_game *game, t_dda *dda, t_dpos inter);
-
+double			dist(t_game *game, t_dpos inter);
+void	init_dda(t_game *game);
 
 void	init_player(t_game *game);
 int		ft_abs(int x);
-void	free_game(t_game *game);
+int		check_cub(t_game *game, const char *file);
+void	init_game(t_game *game);
 
 /*
 **	Minimap
