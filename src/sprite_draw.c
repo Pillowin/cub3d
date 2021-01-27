@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 17:20:00 by agautier          #+#    #+#             */
-/*   Updated: 2021/01/26 17:22:38 by agautier         ###   ########.fr       */
+/*   Updated: 2021/01/27 13:51:31 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	calc_sprite(t_game *game, t_calc_sprite *cs)
 
 static void	print_sprite(t_game *game, t_calc_sprite *cs)
 {
-	cs->x_curr = cs->x_begin; // TODO: check
+	cs->x_curr = cs->x_begin;
 	while (cs->x_curr < cs->x_begin + (int)cs->side)
 	{
 		if (cs->x_curr >= 0 && cs->x_curr < game->res.x &&

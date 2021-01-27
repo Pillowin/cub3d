@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/09 18:13:00 by agautier          #+#    #+#             */
-/*   Updated: 2020/11/11 14:28:55 by agautier         ###   ########.fr       */
+/*   Updated: 2021/01/27 13:53:11 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	ft_is_base_err(char *base, int base_len)
 }
 
 /*
-**	Voir ft_putnbr_base mais avec un unsigned int en parametre. 
+**	Voir ft_putnbr_base mais avec un unsigned int en parametre.
 */
 
 void		ft_putunbr_base(unsigned int n, char *base, int *printed, int fd)
