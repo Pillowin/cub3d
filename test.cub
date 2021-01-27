@@ -1,9 +1,9 @@
-R   1000	500
-NO  ./texture/rock.xpm
-SO  ./texture/south.xpm
-WE  ./texture/west.xpm
-EA  ./texture/east.xpm
-S   ./path_to_the_sprite_texture
+R   500	500
+NO  ./texture/eagle.xpm
+SO  ./texture/brick.xpm
+WE  ./texture/blue_brick.xpm
+EA  ./texture/moss.xpm
+S   ./texture/barrel.xpm
 F   220,100,0
 C   225,30,0
 
@@ -19,7 +19,7 @@ C   225,30,0
       101   
  1111 101    
  11011101   
- 100N000011  
+ 100S000011  
  1000000011  
  100011111 
  1001 10011  
