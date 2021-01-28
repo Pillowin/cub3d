@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 13:31:00 by agautier          #+#    #+#             */
-/*   Updated: 2021/01/26 13:31:10 by agautier         ###   ########.fr       */
+/*   Updated: 2021/01/28 15:33:28 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,9 @@ void		parse_data(char *line, t_game *game, int *data_parsed)
 	{
 		words = ft_split_charset(line, ft_get_whitespaces());
 		index = find_elem(words, tab);
-		if ((index >= 0 && !(data_parsed[index] = tab_f[index](game,
-			words, index)))
-			|| (index == -1 && words[0]))
+		if (data_parsed[index] ||
+			(index >= 0 && !(data_parsed[index] = tab_f[index](game, words, index))) ||
+			(index == -1 && words[0]))
 		{
 			free_split(words);
 			ft_free(line);

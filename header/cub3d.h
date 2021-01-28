@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 13:51:00 by agautier          #+#    #+#             */
-/*   Updated: 2021/01/27 13:51:00 by agautier         ###   ########.fr       */
+/*   Updated: 2021/01/28 15:28:34 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,7 +197,7 @@ void			global_event(t_game *game);
 int				event_hook(int keycode, t_game *game);
 int				minimise_hook(t_game *game);
 t_img			init_img(t_game *game);
-void			global_img(t_game *game);
+void			global_img(t_game *game, int save);
 void			global_parse(char *filename, t_game *game);
 void			parse_data(char *line, t_game *game, int *data_parsed);
 int				parse_map(t_game *game, char *buffer);

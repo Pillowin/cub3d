@@ -6,15 +6,37 @@
 #    By: agautier <agautier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/04 18:59:05 by agautier          #+#    #+#              #
-#    Updated: 2021/01/26 17:29:23 by agautier         ###   ########.fr        #
+#    Updated: 2021/01/28 15:41:39 by agautier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	Cub3D
-SRC			=	$(wildcard src/*.c) $(wildcard src/parsing/*.c)
+SRC			=	./src/parsing/cardinal_check.c	\
+				./src/parsing/check_map.c		\
+				./src/parsing/parse.c			\
+				./src/parsing/parse_utils.c		\
+				./src/bmp.c						\
+				./src/cub3d.c					\
+				./src/draw.c					\
+				./src/engine.c					\
+				./src/error.c					\
+				./src/event.c					\
+				./src/fill_data.c				\
+				./src/free.c					\
+				./src/image.c					\
+				./src/player.c					\
+				./src/move_player.c				\
+				./src/put_texture.c				\
+				./src/raycast.c					\
+				./src/rotate_player.c			\
+				./src/sprite.c					\
+				./src/sprite_draw.c				\
+				./src/texture.c					\
+				./src/utils.c					\
+				./src/window.c
 OBJ			=	$(SRC:.c=.o)
 CC			=	gcc
-CFLAGS		=	-Wall -Wextra -Werror -fsanitize=address -g3 
+CFLAGS		=	-Wall -Wextra -Werror
 HEADER_DIR	=	header
 LIB_DIR		=	lib
 LIBS		=	-lft -lm -lmlx -lXext -lX11

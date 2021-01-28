@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 14:22:00 by agautier          #+#    #+#             */
-/*   Updated: 2021/01/26 17:09:49 by agautier         ###   ########.fr       */
+/*   Updated: 2021/01/28 15:28:12 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,19 @@ t_img	init_img(t_game *game)
 	return (img);
 }
 
-void	global_img(t_game *game)
+void	global_img(t_game *game, int save)
 {
+	int x;
+	int y;
+
+	if (!save)
+	{
+		mlx_get_screen_size(game->mlx.id, &x, &y);
+		if (game->res.x > x)
+			game->res.x = x;
+		if (game->res.y > y)
+			game->res.y = y;
+	}
 	game->mlx.img = init_img(game);
 	init_dda(game);
 	game->dists = (double *)malloc(sizeof(game->dists) * game->res.x);
