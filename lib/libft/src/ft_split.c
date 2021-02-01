@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 10:55:19 by agautier          #+#    #+#             */
-/*   Updated: 2020/11/11 14:07:00 by agautier         ###   ########.fr       */
+/*   Updated: 2021/02/01 20:42:20 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,14 +87,14 @@ static char	*ft_parse_word(const char *s, char *res, int index, char c)
 	return ((char *)NULL);
 }
 
-static void	ft_free_tabs(char **tab, int i)
+static void	ft_free_tabs(char ***tab, int i)
 {
 	while (i >= 0)
 	{
-		free(tab[i]);
+		ft_free((void **)&(*tab[i]));
 		i--;
 	}
-	free(tab);
+	ft_free((void **)&tab);
 }
 
 /*
@@ -121,7 +121,7 @@ char		**ft_split(char const *s, char c)
 		word_len = ft_word_len(s, i, c);
 		if (!(tab[i] = (char *)malloc(sizeof(char *) * (word_len + 1))))
 		{
-			ft_free_tabs(tab, i - 1);
+			ft_free_tabs(&tab, i - 1);
 			return ((char **)NULL);
 		}
 		tab[i] = ft_parse_word(s, tab[i], i, c);

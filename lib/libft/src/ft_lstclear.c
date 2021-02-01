@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 18:07:19 by agautier          #+#    #+#             */
-/*   Updated: 2020/11/11 14:13:31 by agautier         ###   ########.fr       */
+/*   Updated: 2021/02/01 20:31:27 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_lstclear(t_list **lst, void (*del)(void *))
 	{
 		next = current->next;
 		del(current->content);
-		free(current);
+		ft_free((void **)&current);
 		current = next;
 	}
 	*lst = 0;

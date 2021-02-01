@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/19 18:03:14 by agautier          #+#    #+#             */
-/*   Updated: 2020/11/11 13:48:52 by agautier         ###   ########.fr       */
+/*   Updated: 2021/02/01 20:43:05 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ static int	fill_tab(char ***tab, int *words_len, char *str, char *charset)
 		if (!((*tab)[d1] = malloc((words_len[d1] + 2) * sizeof(char))))
 		{
 			while (d1 >= 0)
-				ft_free(tab[d1--]);
+				ft_free((void **)&(tab[d1--]));
 			return (0);
 		}
 		while (ft_find_sep(str[i_str], charset))
@@ -134,6 +134,6 @@ char		**ft_split_charset(char *str, char *charset)
 	split = fill_tab(&tab, words_len, str, charset);
 	if (split)
 		return (tab);
-	ft_free(tab);
+	ft_free((void **)&tab);
 	return (0);
 }

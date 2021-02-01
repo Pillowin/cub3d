@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 14:19:11 by agautier          #+#    #+#             */
-/*   Updated: 2021/01/29 19:14:05 by agautier         ###   ########.fr       */
+/*   Updated: 2021/02/01 21:11:47 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,11 @@ int			fill_texture(t_game *game, char **words, int index)
 	*(&game->north + (index - 1)) = ft_strdup(words[1]);
 	fd = open(words[1], O_RDONLY);
 	if (fd == -1 || check_tex_type(words[1]))
-	{
-		set_error(game, ERR_TEXTURE);
-		ft_error(game);
-	}
+		return (0);
 	close(fd);
 	init_textures(game, &tex_data, words[1]);
 	if (tex_data.res.x != 64 || tex_data.res.y != 64)
-	{
-		set_error(game, ERR_TEXTURE);
-		ft_error(game);
-	}
+		return (0);
 	*(&game->north_data + (index - 1)) = tex_data;
 	return (1);
 }
@@ -67,11 +61,11 @@ static char	*concatenate(char **words)
 			break ;
 		}
 		tmp = ft_strjoin(cols, words[i]);
-		ft_free(cols);
+		ft_free((void **)&cols);
 		cols = tmp;
 		i++;
 	}
-	ft_free(words[1]);
+	ft_free((void **)&words[1]);
 	return (cols);
 }
 

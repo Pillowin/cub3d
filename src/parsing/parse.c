@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 13:31:00 by agautier          #+#    #+#             */
-/*   Updated: 2021/01/28 15:50:31 by agautier         ###   ########.fr       */
+/*   Updated: 2021/02/01 20:51:25 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,17 @@ void		global_parse(char *filename, t_game *game)
 			buffer = fill_buffer(line);
 		else if (line)
 			parse_data(line, game, data_parsed);
-		ft_free(line);
+		ft_free((void **)&line);
 	}
 	if (parsed_data(data_parsed))
 		buffer = fill_buffer(line);
-	ft_free(line);
+	ft_free((void **)&line);
 	if (!parse_map(game, buffer))
 	{
-		ft_free(buffer);
+		ft_free((void **)&buffer);
 		ft_error(game);
 	}
-	ft_free(buffer);
+	ft_free((void **)&buffer);
 	close(fd);
 }
 
@@ -72,7 +72,7 @@ void		parse_data(char *line, t_game *game, int *data_parsed)
 			(index == -1 && words[0]))
 		{
 			free_split(words);
-			ft_free(line);
+			ft_free((void **)&line);
 			set_error(game, ERR_DATA);
 			ft_error(game);
 		}

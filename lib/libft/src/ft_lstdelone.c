@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/08 17:59:51 by agautier          #+#    #+#             */
-/*   Updated: 2020/11/11 14:14:23 by agautier         ###   ########.fr       */
+/*   Updated: 2021/02/01 20:30:45 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *))
 	if (lst)
 	{
 		del(lst->content);
-		free(lst);
+		// free(lst);
+		ft_free((void **)&lst);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 13:31:25 by agautier          #+#    #+#             */
-/*   Updated: 2021/01/26 13:31:26 by agautier         ###   ########.fr       */
+/*   Updated: 2021/02/01 20:51:46 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,12 @@ char	*fill_buffer(char *line)
 		return (buff);
 	tmp = buff;
 	buff = ft_strjoin(tmp, line);
-	ft_free(tmp);
+	ft_free((void **)&tmp);
 	tmp = buff;
 	if (!ft_strlen(line))
 		buff = ft_strjoin(tmp, " \n");
 	else
 		buff = ft_strjoin(tmp, "\n");
-	ft_free(tmp);
+	ft_free((void **)&tmp);
 	return (buff);
 }

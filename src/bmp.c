@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 13:33:37 by agautier          #+#    #+#             */
-/*   Updated: 2021/01/26 13:46:59 by agautier         ###   ########.fr       */
+/*   Updated: 2021/02/01 20:53:48 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	ft_bmp_file_header(t_game *game, int fd)
 	file_header[10] = (unsigned char)(BMP_FILE_HEADER_SIZE +
 		BMP_INFO_HEADER_SIZE);
 	write(fd, file_header, BMP_FILE_HEADER_SIZE);
-	ft_free(file_header);
+	ft_free((void **)&file_header);
 	return (1);
 }
 
@@ -66,7 +66,7 @@ static int	ft_bmp_info_header(t_game *game, int fd)
 	info_header[12] = (unsigned char)(1);
 	info_header[14] = (unsigned char)(game->mlx.img.bpp);
 	write(fd, info_header, BMP_INFO_HEADER_SIZE);
-	ft_free(info_header);
+	ft_free((void **)&info_header);
 	return (1);
 }
 
