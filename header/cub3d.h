@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 13:51:00 by agautier          #+#    #+#             */
-/*   Updated: 2021/01/28 15:28:34 by agautier         ###   ########.fr       */
+/*   Updated: 2021/01/29 16:47:32 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@
 # define DEG			0.0174533
 # define RAD			57
 # define FOV			60
-# define SPEED			4
-# define ROTATION_SPEED	2
 # define PLAYER_SIZE	3
 
 # define ESC_KEY			65307
@@ -189,67 +187,174 @@ typedef struct	s_game
 	t_sprite	*sprites;
 	int			nb_sprite;
 	enum e_err	err;
+	int			speed;
+	int			rota_speed;
 }				t_game;
 
-void			global_win(t_game *game);
-int				close_win(t_game *game);
-void			global_event(t_game *game);
-int				event_hook(int keycode, t_game *game);
-int				minimise_hook(t_game *game);
-t_img			init_img(t_game *game);
-void			global_img(t_game *game, int save);
-void			global_parse(char *filename, t_game *game);
-void			parse_data(char *line, t_game *game, int *data_parsed);
-int				parse_map(t_game *game, char *buffer);
-int				parsed_data(int *parsing);
-int				find_elem(char **words, const char **tab);
-int				line_is_spaces(char *str);
-int				is_player(t_game *game, int x, int y);
-char			*fill_buffer(char *line);
-int				fill_resolution(t_game *game, char **words, int index);
-int				fill_texture(t_game *game, char **words, int index);
-int				fill_color(t_game *game, char **words, int index);
-void			free_split(char **words);
-void			free_game(t_game *game);
-void			player(t_game *game, t_pos pos, int size, t_color c);
-void			move_player(t_game *game);
-void			dda_horizontal(t_game *game, t_dda *dda);
-void			dda_vertical(t_game *game, t_dda *dda);
-void			find_intersection(t_game *game);
-void			raycaster(t_game *game);
-void			draw_map(t_game *game);
-void			draw_bg(t_game *game, t_color c, t_color f);
-void			draw_columns(t_game *game);
-int				forward(t_game *game);
-int				backward(t_game *game);
-int				left(t_game *game);
-int				right(t_game *game);
-int				rotate_left(t_game *game);
-int				rotate_right(t_game *game);
-void			put_pixel(t_game *game, int x, int y, t_color c);
-void			put_square(t_game *game, t_pos pos, int size, t_color c);
-int				check_player(t_game *game);
-int				find_zeros(t_game *game);
-int				check_closed_map(t_game *game);
+/*
+** Cardinal check
+*/
 void			find_max(t_game *game, int *max_x, int *max_y);
 int				check_horizontaly_begin(t_game *game);
 int				check_horizontaly_end(t_game *game);
 int				check_verticaly_begin(t_game *game);
 int				check_verticaly_end(t_game *game);
-int				check_tex_type(char *words);
+
+/*
+** Check map
+*/
+int				check_player(t_game *game);
+int				find_zeros(t_game *game);
+int				check_closed_map(t_game *game);
+
+/*
+** Parse utils
+*/
+
+int				parsed_data(int *parsing);
+int				find_elem(char **words, const char **tab);
+int				line_is_spaces(char *str);
+int				is_player(t_game *game, int x, int y);
+char			*fill_buffer(char *line);
+
+/*
+** Parse
+*/
+
+void			global_parse(char *filename, t_game *game);
+void			parse_data(char *line, t_game *game, int *data_parsed);
+int				parse_map(t_game *game, char *buffer);
+
+/*
+** BMP
+*/
+
+int				ft_create_bmp(t_game *game);
+
+/*
+** Draw
+*/
+
+void			draw_columns(t_game *game);
+
+/*
+** Engine
+*/
+
+void			dda_horizontal(t_game *game, t_dda *dda);
+void			dda_vertical(t_game *game, t_dda *dda);
+void			find_intersection(t_game *game);
+
+/*
+** Error
+*/
+
 int				set_error(t_game *game, enum e_err error);
 void			ft_error(t_game *game);
-double			dist(t_game *game, t_dpos inter);
-void			init_dda(t_game *game);
+
+/*
+** Event
+*/
+
+int				key_press(int keycode, t_game *game);
+int				key_release(int keycode, t_game *game);
+int				event_hook(int keycode, t_game *game);
+void			global_event(t_game *game);
+int				minimise_hook(t_game *game);
+
+/*
+** Fill_data
+*/
+
+int				fill_color(t_game *game, char **words, int index);
+void			check_color(t_game *game, char **words);
+int				fill_texture(t_game *game, char **words, int index);
+int				fill_resolution(t_game *game, char **words, int index);
+
+/*
+** Free
+*/
+
+void			free_split(char **words);
+void			free_game(t_game *game);
+
+/*
+** Image
+*/
+
+t_img			init_img(t_game *game);
+void			global_img(t_game *game, int argc);
+
+/*
+** Move player
+*/
+
+void			fix_speed(t_game *game);
+int				forward(t_game *game);
+int				backward(t_game *game);
+int				left(t_game *game);
+int				right(t_game *game);
+/*
+** Player
+*/
+void			move_player(t_game *game);
 void			init_player(t_game *game);
-int				ft_abs(int x);
-int				check_cub(t_game *game, const char *file);
-void			init_game(t_game *game);
+
+/*
+** Put texture
+*/
+
+void			put_pixel(t_game *game, int x, int y, t_color c);
+
+/*
+** Raycast
+*/
+
+void			raycast(t_game *game);
+void			raycaster(t_game *game);
+
+/*
+** Rotate player
+*/
+
+int				rotate_left(t_game *game);
+int				rotate_right(t_game *game);
+
+/*
+** Sprite_draw
+*/
+
+void			draw_sprite(t_game *game);
+
+/*
+** Sprite
+*/
+
 void			find_sprites(t_game *game);
 void			calc_dist_sprite(t_game *game);
 void			fill_visibility(t_game *game);
-void			draw_sprite(t_game *game);
+
+/*
+** Textures
+*/
+
 void			init_textures(t_game *game, t_img *tex_data, char *tex_name);
-int				ft_create_bmp(t_game *game);
+
+/*
+** Utils
+*/
+
+int				check_tex_type(char *words);
+double			dist(t_game *game, t_dpos inter);
+int				ft_abs(int x);
+void			init_dda(t_game *game);
+int				check_cub(t_game *game, const char *file);
+
+/*
+** Window
+*/
+
+void			global_win(t_game *game);
+int				close_win(t_game *game);
 
 #endif

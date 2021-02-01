@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 14:37:48 by agautier          #+#    #+#             */
-/*   Updated: 2021/01/26 14:37:48 by agautier         ###   ########.fr       */
+/*   Updated: 2021/01/30 12:22:14 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ void	raycaster(t_game *game)
 	{
 		raycast(game);
 		draw_columns(game);
-		game->dda.ray.a += FOV * DEG / game->res.x;
+		game->dda.ray.a = game->player.angle
+			+ atan((game->dda.nb_ray - (game->res.x / 2)) / ((game->res.x / 2)
+		/ tan((FOV / 2 * DEG))));
 		if (game->dda.ray.a > 2 * M_PI)
 			game->dda.ray.a -= 2 * M_PI;
 		game->dda.nb_ray++;

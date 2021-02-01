@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 14:19:11 by agautier          #+#    #+#             */
-/*   Updated: 2021/01/26 14:19:11 by agautier         ###   ########.fr       */
+/*   Updated: 2021/01/29 19:14:05 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,13 @@ static char	*concatenate(char **words)
 	i = 1;
 	while (words[i])
 	{
+		if (ft_strlen(cols) > 0 &&
+			ft_isdigit(cols[ft_strlen(cols) - 1]) &&
+			ft_isdigit(words[i][0]))
+		{
+			ft_bzero(cols, ft_strlen(cols));
+			break ;
+		}
 		tmp = ft_strjoin(cols, words[i]);
 		ft_free(cols);
 		cols = tmp;
@@ -96,13 +103,13 @@ int			fill_color(t_game *game, char **words, int index)
 	if (!words[1])
 		return (0);
 	words[1] = concatenate(words);
-	if (!check_colors_data(words[1]))
+	if (!words[1] || !check_colors_data(words[1]))
 		return (0);
 	colors = ft_split(words[1], ',');
 	i = 0;
 	while (i <= 2)
 	{
-		if (ft_atoi(colors[i]) < 0 || ft_atoi(colors[i]) > 255)
+		if (!colors[i] || ft_atoi(colors[i]) < 0 || ft_atoi(colors[i]) > 255)
 		{
 			free_split(colors);
 			return (0);

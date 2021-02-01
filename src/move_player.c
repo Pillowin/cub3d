@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 14:28:24 by agautier          #+#    #+#             */
-/*   Updated: 2021/01/26 14:35:28 by agautier         ###   ########.fr       */
+/*   Updated: 2021/01/29 16:10:23 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,20 +46,20 @@ int		backward(t_game *game)
 
 int		left(t_game *game)
 {
-	game->player.delta.x = cos(game->player.angle - M_PI_2) * SPEED;
-	game->player.delta.y = sin(game->player.angle - M_PI_2) * SPEED;
+	game->player.delta.x = cos(game->player.angle - M_PI_2) * game->speed;
+	game->player.delta.y = sin(game->player.angle - M_PI_2) * game->speed;
 	forward(game);
-	game->player.delta.x = cos(game->player.angle) * SPEED;
-	game->player.delta.y = sin(game->player.angle) * SPEED;
+	game->player.delta.x = cos(game->player.angle) * game->speed;
+	game->player.delta.y = sin(game->player.angle) * game->speed;
 	return (0);
 }
 
 int		right(t_game *game)
 {
-	game->player.delta.x = cos(game->player.angle + M_PI_2) * SPEED;
-	game->player.delta.y = sin(game->player.angle + M_PI_2) * SPEED;
+	game->player.delta.x = cos(game->player.angle + M_PI_2) * game->speed;
+	game->player.delta.y = sin(game->player.angle + M_PI_2) * game->speed;
 	forward(game);
-	game->player.delta.x = cos(game->player.angle) * SPEED;
-	game->player.delta.y = sin(game->player.angle) * SPEED;
+	game->player.delta.x = cos(game->player.angle) * game->speed;
+	game->player.delta.y = sin(game->player.angle) * game->speed;
 	return (0);
 }
