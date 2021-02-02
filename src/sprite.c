@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 16:57:09 by agautier          #+#    #+#             */
-/*   Updated: 2021/01/31 20:10:16 by agautier         ###   ########.fr       */
+/*   Updated: 2021/02/02 00:01:20 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,8 +118,8 @@ void			fill_visibility(t_game *game)
 			delta_angle -= 2 * M_PI;
 		else if (delta_angle < 0)
 			delta_angle += 2 * M_PI;
-		if (delta_angle < FOV / 2 * DEG ||
-				delta_angle > 2 * M_PI - FOV / 2 * DEG)
+		if (delta_angle < FOV / 2 * DEG + 0.2 ||
+				delta_angle > 2 * M_PI - FOV / 2 * DEG - 0.2)
 			game->sprites[i].visible = 1;
 		else
 			game->sprites[i].visible = 0;

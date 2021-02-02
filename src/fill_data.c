@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 14:19:11 by agautier          #+#    #+#             */
-/*   Updated: 2021/02/01 21:11:47 by agautier         ###   ########.fr       */
+/*   Updated: 2021/02/02 00:01:45 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int			fill_resolution(t_game *game, char **words, int index)
 {
 	(void)index;
-	if (!words[2])
+	if (!words[2] || words[3])
 		return (0);
 	game->res.x = ft_atoi(words[1]);
 	game->res.y = ft_atoi(words[2]);

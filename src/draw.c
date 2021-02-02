@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 13:48:04 by agautier          #+#    #+#             */
-/*   Updated: 2021/01/26 14:02:26 by agautier         ###   ########.fr       */
+/*   Updated: 2021/02/02 00:02:10 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static	int	find_tex_x(t_game *game, int tex_id)
 		tex_x = fmod(game->dda.ray.x / 64, 1) *
 			(&game->north_data + tex_id)->res.x;
 	if (tex_id == 1 || tex_id == 2)
-		tex_x = 64 - tex_x;
+		tex_x = 63 - tex_x;
 	return (tex_x);
 }
 
