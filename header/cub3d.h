@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/27 13:51:00 by agautier          #+#    #+#             */
-/*   Updated: 2021/01/28 15:28:34 by agautier         ###   ########.fr       */
+/*   Updated: 2021/02/10 19:21:00 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,12 @@ enum	e_err {
 	ERR_BMP,
 	ERR_BMP_HEADER,
 	ERR_BMP_IMG
+};
+
+enum	e_token {
+	TOKEN_COMMA = 0,
+	TOKEN_RPAREN,
+	TOKEN_LPAREN,
 };
 
 typedef struct	s_pos
