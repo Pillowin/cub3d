@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 14:19:31 by agautier          #+#    #+#             */
-/*   Updated: 2021/01/26 14:21:01 by agautier         ###   ########.fr       */
+/*   Updated: 2021/02/01 20:58:58 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	free_mlx(t_game *game)
 		if (game->mlx.win)
 			mlx_destroy_window(game->mlx.id, game->mlx.win);
 		mlx_destroy_display(game->mlx.id);
-		ft_free(game->mlx.id);
+		ft_free((void **)&(game->mlx.id));
 	}
 }
 
@@ -43,10 +43,10 @@ void		free_split(char **words)
 	index = 0;
 	while (words[index])
 	{
-		ft_free(words[index]);
+		ft_free((void **)&words[index]);
 		index++;
 	}
-	ft_free(words);
+	ft_free((void **)&words);
 }
 
 void		free_game(t_game *game)
@@ -55,17 +55,17 @@ void		free_game(t_game *game)
 	if (game->map)
 		free_split(game->map);
 	if (game->north)
-		ft_free(game->north);
+		ft_free((void **)&(game->north));
 	if (game->south)
-		ft_free(game->south);
+		ft_free((void **)&(game->south));
 	if (game->west)
-		ft_free(game->west);
+		ft_free((void **)&(game->west));
 	if (game->east)
-		ft_free(game->east);
+		ft_free((void **)&(game->east));
 	if (game->sprite)
-		ft_free(game->sprite);
+		ft_free((void **)&(game->sprite));
 	if (game->dists)
-		ft_free(game->dists);
+		ft_free((void **)&(game->dists));
 	if (game->sprites)
-		ft_free(game->sprites);
+		ft_free((void **)&(game->sprites));
 }

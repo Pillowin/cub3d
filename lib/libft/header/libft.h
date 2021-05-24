@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/05 13:15:19 by agautier          #+#    #+#             */
-/*   Updated: 2020/11/11 15:01:00 by agautier         ###   ########.fr       */
+/*   Updated: 2021/02/01 21:04:01 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,26 @@
 
 # include <stdlib.h>
 # include <unistd.h>
+
+# ifndef GET_NEXT_LINE_H
+
+#  define GET_NEXT_LINE_H
+
+#  include <limits.h>
+
+#  ifndef BUFFER_SIZE
+#   define BUFFER_SIZE 4096
+#  elif BUFFER_SIZE < 0
+#   define BUFFER_SIZE 0
+#  endif
+
+#  define GNL_OK 1
+#  define GNL_END 0
+#  define GNL_ERR -1
+
+int					get_next_line(int fd, char **line);
+
+# endif
 
 typedef	struct		s_list
 {
@@ -40,7 +60,6 @@ int *printed, int fd);
 void				ft_putunbr_base(unsigned int n, char *base,
 int *printed, int fd);
 void				ft_putlnbr(long nb);
-int					ft_printf(const char *format, ...);
 
 /*
 **	char
@@ -90,7 +109,6 @@ char				*ft_itoa(int n);
 char				**ft_split(char const *s, char c);
 char				**ft_split_charset(char *str, char *charset);
 char				*ft_get_whitespaces();
-int					get_next_line(int fd, char **line);
 
 /*
 **	mem
@@ -103,7 +121,7 @@ void				*ft_memmove(void *dst, const void *src, size_t len);
 void				*ft_memchr(const void *s, int c, size_t n);
 int					ft_memcmp(const void *s1, const void *s2, size_t n);
 void				*ft_calloc(size_t count, size_t size);
-int					ft_free(void *ptr);
+int					ft_free(void **ptr);
 void				ft_swap(int *a, int *b);
 
 /*

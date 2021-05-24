@@ -6,7 +6,7 @@
 #    By: agautier <agautier@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/04 18:59:05 by agautier          #+#    #+#              #
-#    Updated: 2021/01/28 15:41:39 by agautier         ###   ########.fr        #
+#    Updated: 2021/02/01 22:09:39 by agautier         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,11 +71,14 @@ mlx:
 
 clean:
 	@echo -n "Supression des fichiers .o"
+	@make clean -C lib/libft > /dev/null
+	@make clean -C lib/minilibx-linux > /dev/null
 	@rm -f $(OBJ)
 	@echo "\033[32m\t\t\t[OK]\033[0m"
 
 fclean: clean
-	@echo -n "Supression des executables"
+	@echo -n "Supression des executables et des .o"
+	@make fclean -C lib/libft > /dev/null
 	@rm -f lib/libft.a
 	@rm -f lib/libmlx.a
 	@rm -f $(NAME)

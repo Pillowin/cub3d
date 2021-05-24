@@ -6,11 +6,11 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/19 20:22:53 by agautier          #+#    #+#             */
-/*   Updated: 2021/01/28 15:29:50 by agautier         ###   ########.fr       */
+/*   Updated: 2021/02/01 20:49:39 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "libft.h"
 
 static int		ft_check_buffer_nl(char *buffer)
 {
@@ -51,7 +51,7 @@ static char		*ftm_strjoin(char *s1, char const *s2)
 	while (s2 && *s2)
 		*joined++ = *s2++;
 	*joined = 0;
-	free(s1);
+	ft_free((void **)&s1);
 	return (joined - size);
 }
 
@@ -79,7 +79,7 @@ static char		*prep_line(char *buff, char *line_result, int len)
 	buff[i] = 0;
 	if (!(line_result = ftm_strjoin(line_result, line_end)))
 		return (NULL);
-	free(line_end);
+	ft_free((void **)&line_end);
 	return (line_result);
 }
 

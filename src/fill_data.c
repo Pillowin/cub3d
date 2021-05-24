@@ -6,7 +6,7 @@
 /*   By: agautier <agautier@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/26 14:19:11 by agautier          #+#    #+#             */
-/*   Updated: 2021/01/26 14:19:11 by agautier         ###   ########.fr       */
+/*   Updated: 2021/02/02 00:01:45 by agautier         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int			fill_resolution(t_game *game, char **words, int index)
 {
 	(void)index;
-	if (!words[2])
+	if (!words[2] || words[3])
 		return (0);
 	game->res.x = ft_atoi(words[1]);
 	game->res.y = ft_atoi(words[2]);
@@ -34,17 +34,11 @@ int			fill_texture(t_game *game, char **words, int index)
 	*(&game->north + (index - 1)) = ft_strdup(words[1]);
 	fd = open(words[1], O_RDONLY);
 	if (fd == -1 || check_tex_type(words[1]))
-	{
-		set_error(game, ERR_TEXTURE);
-		ft_error(game);
-	}
+		return (0);
 	close(fd);
 	init_textures(game, &tex_data, words[1]);
 	if (tex_data.res.x != 64 || tex_data.res.y != 64)
-	{
-		set_error(game, ERR_TEXTURE);
-		ft_error(game);
-	}
+		return (0);
 	*(&game->north_data + (index - 1)) = tex_data;
 	return (1);
 }
@@ -59,12 +53,19 @@ static char	*concatenate(char **words)
 	i = 1;
 	while (words[i])
 	{
+		if (ft_strlen(cols) > 0 &&
+			ft_isdigit(cols[ft_strlen(cols) - 1]) &&
+			ft_isdigit(words[i][0]))
+		{
+			ft_bzero(cols, ft_strlen(cols));
+			break ;
+		}
 		tmp = ft_strjoin(cols, words[i]);
-		ft_free(cols);
+		ft_free((void **)&cols);
 		cols = tmp;
 		i++;
 	}
-	ft_free(words[1]);
+	ft_free((void **)&words[1]);
 	return (cols);
 }
 
@@ -96,13 +97,13 @@ int			fill_color(t_game *game, char **words, int index)
 	if (!words[1])
 		return (0);
 	words[1] = concatenate(words);
-	if (!check_colors_data(words[1]))
+	if (!words[1] || !check_colors_data(words[1]))
 		return (0);
 	colors = ft_split(words[1], ',');
 	i = 0;
 	while (i <= 2)
 	{
-		if (ft_atoi(colors[i]) < 0 || ft_atoi(colors[i]) > 255)
+		if (!colors[i] || ft_atoi(colors[i]) < 0 || ft_atoi(colors[i]) > 255)
 		{
 			free_split(colors);
 			return (0);
